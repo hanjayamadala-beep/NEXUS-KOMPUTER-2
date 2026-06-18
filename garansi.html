@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nexus - Pengecekan Garansi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+  <style>
+    :root {
+      --neon: #1d4ed8;
+      --neon2: #2563eb;
+      --bg: #f8fafc;
+      --bg2: #ffffff;
+      --bg3: #f1f5f9;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --muted: #64748b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ================= NAVBAR (sama persis dengan halaman utama) ================= */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--neon);
+      letter-spacing: 0px;
+      text-shadow: none;
+    }
+    .logo span { color: #1e293b; }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0px;
+      text-transform: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--neon); }
+    .nav-badge {
+      background: var(--neon);
+      color: #fff;
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+    }
+
+    /* ================= CONTENT ================= */
+    .wrapper {
+      min-height: 100vh;
+      padding-top: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 40px;
+      background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%);
+    }
+
+    .container {
+      background: white;
+      width: 100%;
+      max-width: 700px;
+      padding: 50px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .input-box {
+      margin-bottom: 20px;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      color: var(--text);
+    }
+
+    .input-box input:focus {
+      border-color: var(--neon);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .checkbox input {
+      margin-top: 3px;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: var(--neon);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: var(--neon);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn:hover {
+      background: #1e40af;
+      transform: translateY(-1px);
+    }
+
+    .links {
+      margin-top: 32px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .links a {
+      display: block;
+      color: var(--neon);
+      text-decoration: none;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .links a:hover {
+      color: #1e40af;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 30px 20px; }
+      .title { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR (sama dengan halaman utama) -->
+  <nav>
+    <div class="logo">Nexus<span></span></div>
+    <ul class="nav-links">
+      <li><a href="Home.html">Home</a></li>
+      <li><a href="Layanan.html">Layanan</a></li>
+      <li><a href="diagnosa-kerusakan.html">Diagnosa</a></li>
+      <li><a href="rekomendasi-laptop.html">Rekomendasi</a></li>
+      <li><a href="kontak.html">Kontak</a></li>
+    </ul>
+    <a class="nav-badge" href="garansi.html">Garansi Resmi</a>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="wrapper">
+    <div class="container">
+
+      <h1 class="title">Pengecekan Status Garansi</h1>
+      <p class="subtitle">Masukkan nomor seri perangkat Anda</p>
+
+      <div class="input-box">
+        <input type="text" placeholder="Masukkan Nomor Seri Unit" id="serialInput">
+      </div>
+
+      <label class="checkbox">
+        <input type="checkbox" id="agreeCheckbox">
+        <p>
+          Saya setuju untuk memberikan nomor seri produk saya kepada ASUS
+          untuk menanyakan masa garansi produk saya dan menyetujui
+          kebijakan privasi.
+        </p>
+      </label>
+
+      <button class="btn" onclick="submitForm()">Kirim</button>
+
+      <div class="links">
+        <a href="https://www.asus.com/support/myasus-deeplink/" target="_blank" rel="noopener">MyASUS</a>
+        <a href="https://www.asus.com/id/support/warranty-status-inquiry/" target="_blank" rel="noopener">Pengecekan Garansi</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function submitForm() {
+      const serial = document.getElementById('serialInput').value.trim();
+      const agreed = document.getElementById('agreeCheckbox').checked;
+
+      if (!serial) {
+        alert('Harap masukkan nomor seri perangkat Anda.');
+        document.getElementById('serialInput').focus();
+        return;
+      }
+
+      if (!agreed) {
+        alert('Harap setujui kebijakan privasi terlebih dahulu.');
+        return;
+      }
+
+      alert('Nomor seri berhasil dikirim: ' + serial);
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>
