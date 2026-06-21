@@ -76,79 +76,243 @@
   }
   .nav-badge:hover { background: #1e40af; }
 
-  /* HERO */
-  .hero {
+  /* HERO CAROUSEL */
+  .hero-carousel {
     position: relative;
     z-index: 1;
-    padding: 140px 2rem 80px;
-    text-align: center;
-    background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%);
-    border-bottom: 1px solid var(--border);
+    margin-top: 64px;
+    overflow: hidden;
+    background: #0f172a;
+    height: 480px;
   }
-  .hero-tag {
+  .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 6rem;
+    gap: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .carousel-slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    z-index: 0;
+  }
+  .slide-content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+  }
+  .slide-tag {
     display: inline-block;
-    background: #dbeafe;
-    color: #1d4ed8;
-    border: 1px solid #bfdbfe;
-    font-size: 0.8rem;
-    padding: 6px 14px;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
+    padding: 4px 12px;
     border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
   }
-  .hero h1 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: clamp(2rem, 5vw, 3.8rem);
+  .slide-brand {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+  }
+  .slide-name {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
     font-weight: 700;
     line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .slide-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    opacity: 0.75;
+    max-width: 400px;
     margin-bottom: 1.5rem;
   }
-  .hero h1 .line1 { color: var(--text); display: block; }
-  .hero h1 .line2 { color: var(--neon); display: block; }
-  .hero p {
-    color: var(--muted);
-    font-size: 1.05rem;
-    max-width: 520px;
-    margin: 0 auto 2.5rem;
-    line-height: 1.7;
-  }
-  .hero-cta {
-    display: inline-flex;
-    align-items: center;
+  .slide-specs-row {
+    display: flex;
+    flex-wrap: wrap;
     gap: 8px;
-    background: var(--neon);
-    color: #fff;
-    padding: 14px 28px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.95rem;
+    margin-bottom: 1.8rem;
+  }
+  .slide-spec-chip {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.72rem;
     font-weight: 600;
-    border-radius: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.9);
+  }
+  .slide-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .slide-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .slide-price-old {
+    font-size: 0.9rem;
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+  .slide-btns { display: flex; gap: 10px; }
+  .slide-btn-primary {
+    padding: 12px 24px;
+    border-radius: 7px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
     cursor: pointer;
     border: none;
+    transition: opacity 0.2s, transform 0.15s;
+    color: #fff;
+  }
+  .slide-btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+  .slide-btn-outline {
+    padding: 12px 24px;
+    border-radius: 7px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.85);
     transition: background 0.2s, transform 0.15s;
   }
-  .hero-cta:hover { background: #1e40af; transform: translateY(-2px); }
-  .hero-stats {
+  .slide-btn-outline:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+  .slide-visual {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  .slide-visual img {
+    max-height: 300px;
+    max-width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+    transition: transform 0.4s ease;
+  }
+  .carousel-slide:hover .slide-visual img { transform: scale(1.04) translateY(-6px); }
+  .slide-bg-glow {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.18;
+    right: -80px; top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+  }
+  /* Carousel controls */
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    backdrop-filter: blur(4px);
+  }
+  .carousel-btn:hover { background: rgba(255,255,255,0.22); }
+  .carousel-prev { left: 1.5rem; }
+  .carousel-next { right: 1.5rem; }
+  .carousel-dots {
+    position: absolute;
+    bottom: 1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+  .carousel-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    padding: 0;
+  }
+  .carousel-dot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: #fff;
+  }
+  /* Floating badge */
+  .slide-float-badge {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+    border-radius: 10px;
+    padding: 12px 16px;
+    text-align: center;
+    z-index: 1;
+  }
+  .float-badge-num { font-size: 1.4rem; font-weight: 700; color: #fff; }
+  .float-badge-label { font-size: 0.65rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Stats bar */
+  .stats-bar {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 2rem;
     display: flex;
     justify-content: center;
-    gap: 3rem;
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
+    gap: 4rem;
   }
   .stat-item { text-align: center; }
-  .stat-num {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--neon);
+  .stat-num { font-size: 1.5rem; font-weight: 700; color: var(--neon); }
+  .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  @media (max-width: 768px) {
+    .hero-carousel { height: auto; min-height: 520px; }
+    .carousel-slide { grid-template-columns: 1fr; padding: 5rem 1.5rem 4rem; text-align: center; }
+    .slide-visual { display: none; }
+    .slide-specs-row, .slide-btns { justify-content: center; }
+    .slide-desc { margin: 0 auto 1.5rem; }
+    .stats-bar { gap: 2rem; flex-wrap: wrap; }
   }
-  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
 
   /* SECTION */
   section {
     position: relative;
     z-index: 1;
-    padding: 5rem 2rem;
+    padding: 4rem 2rem 5rem;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -419,23 +583,20 @@
   <a class="nav-badge" href="garansi.html">Garansi Resmi</a>
 </nav>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-tag">⚡ Nexus #1 di Indonesia</div>
-  <h1>
-    <span class="line1">Upgrade Your</span>
-    <span class="line2">Gaming Setup</span>
-  </h1>
-  <p>Laptop gaming dan workstation terbaik dengan garansi resmi, harga kompetitif, dan pengiriman ke seluruh Indonesia.</p>
-  <button class="hero-cta" onclick="document.querySelector('section').scrollIntoView({behavior:'smooth'})">
-    Lihat Produk →
-  </button>
-  <div class="hero-stats">
-    <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Produk</div></div>
-    <div class="stat-item"><div class="stat-num">12K+</div><div class="stat-label">Pelanggan</div></div>
-    <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-label">Rating</div></div>
-    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Garansi Resmi</div></div>
-  </div>
+<!-- HERO CAROUSEL -->
+<div class="hero-carousel" id="heroCarousel">
+  <div class="carousel-track" id="carouselTrack"></div>
+  <button class="carousel-btn carousel-prev" onclick="carouselMove(-1)">&#8592;</button>
+  <button class="carousel-btn carousel-next" onclick="carouselMove(1)">&#8594;</button>
+  <div class="carousel-dots" id="carouselDots"></div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Produk</div></div>
+  <div class="stat-item"><div class="stat-num">12K+</div><div class="stat-label">Pelanggan</div></div>
+  <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-label">Rating</div></div>
+  <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Garansi Resmi</div></div>
 </div>
 
 <!-- PRODUCTS SECTION -->
@@ -490,7 +651,7 @@ const laptopSVG = (color1, color2) => `
 const products = [
   {
     id: 1, brand: "ASUS", name: "ROG Strix G16", category: "gaming",
-    img: "https://dlcdnwebimgs.asus.com/gain/B239AD46-0C86-422B-BF95-B2AC08FE96DF/w750/h470/fwebp",
+    img: "c:\\Users\\Hanjaya\\Downloads\\10DEE269-0AA9-4DB8-A555-4696BC4F5767.jpg",
     badge: "hot", badgeClass: "badge-hot",
     price: "Rp 22.499.000", priceOld: "Rp 25.000.000",
     specs: ["RTX 4070", "i9-13980HX", "32GB DDR5", "1TB NVMe"],
@@ -510,7 +671,7 @@ const products = [
   },
   {
     id: 2, brand: "LENOVO", name: "ThinkPad X1 Carbon", category: "workstation",
-    img: "https://static0.xdaimages.com/wordpress/wp-content/uploads/2023/12/lenovo-thinkpad-x1-carbon-gen-12-header.jpg",
+    img: "c:\\Users\\Hanjaya\\Downloads\\Lenovo-ThinkPad-X1-2.jpg",
     badge: "new", badgeClass: "badge-new",
     price: "Rp 28.999.000", priceOld: null,
     specs: ["Intel Iris Xe", "Core i7-1365U", "16GB LPDDR5", "512GB SSD"],
@@ -590,7 +751,7 @@ const products = [
   },
   {
     id: 6, brand: "DELL", name: "XPS 15 OLED", category: "workstation",
-    img: "https://sm.pcmag.com/t/pcmag_au/review/d/dell-xps-1/dell-xps-15-oled-9520_g88x.1920.jpg",
+    img: "c:\\Users\\Hanjaya\\Downloads\\Gear-Dell-XPS-15-OLED-1.webp",
     badge: null, badgeClass: "",
     price: "Rp 31.499.000", priceOld: null,
     specs: ["RTX 4060", "i7-13700H", "16GB DDR5", "1TB SSD"],
@@ -681,9 +842,205 @@ function closeModalDirect() {
   document.getElementById('modalOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+/* ============ CAROUSEL CONFIG ============ */
+const carouselSlides = [
+  {
+    id: 1,
+    brand: "ASUS ROG",
+    name: "ROG Strix G16",
+    tag: "🔥 Terlaris",
+    tagColor: "#ff3b5c",
+    desc: "Laptop gaming flagship dengan Intel Core i9 Gen-13 & RTX 4070. Layar 165Hz super mulus untuk pengalaman gaming terbaik.",
+    specs: ["RTX 4070", "i9-13980HX", "32GB DDR5", "1TB NVMe", "165Hz IPS"],
+    price: "Rp 22.499.000",
+    priceOld: "Rp 25.000.000",
+    img: "c:\\Users\\Hanjaya\\Downloads\\10DEE269-0AA9-4DB8-A555-4696BC4F5767-removebg-preview.jpg",
+    bg: "linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)",
+    glow: "#6366f1",
+    accentColor: "#818cf8",
+    floatNum: "10%", floatLabel: "Hemat",
+    productId: 1
+  },
+  {
+    id: 2,
+    brand: "LENOVO",
+    name: "ThinkPad X1 Carbon",
+    tag: "✦ Baru",
+    tagColor: "#1d4ed8",
+    desc: "Laptop bisnis premium ultra-tipis, bodi serat karbon MIL-SPEC. Performa handal untuk profesional mobile yang menuntut lebih.",
+    specs: ["Intel Iris Xe", "Core i7-1365U", "16GB LPDDR5", "512GB SSD", "3 Thn Garansi"],
+    price: "Rp 28.999.000",
+    priceOld: null,
+    img: "c:\\Users\\Hanjaya\\Downloads\\Lenovo-ThinkPad-X1-2-removebg-preview.jpg",
+    bg: "linear-gradient(135deg, #0f172a 0%, #0c1a2e 50%, #0f172a 100%)",
+    glow: "#1d4ed8",
+    accentColor: "#60a5fa",
+    floatNum: "1.12kg", floatLabel: "Super Ringan",
+    productId: 2
+  },
+  {
+    id: 3,
+    brand: "ACER",
+    name: "Predator Helios 16",
+    tag: "% Diskon",
+    tagColor: "#059669",
+    desc: "Performa gaming kelas menengah-atas dengan harga kompetitif. RTX 4060 siap menjalankan game AAA dengan setting tertinggi.",
+    specs: ["RTX 4060", "i7-13700HX", "16GB DDR5", "512GB NVMe", "165Hz IPS"],
+    price: "Rp 18.799.000",
+    priceOld: "Rp 21.000.000",
+    img: "c:\Users\Hanjaya\Downloads\helios-neo-16-removebg-preview.jpg",
+    bg: "linear-gradient(135deg, #0f172a 0%, #1a0000 50%, #0f172a 100%)",
+    glow: "#dc2626",
+    accentColor: "#f87171",
+    floatNum: "11%", floatLabel: "Diskon",
+    productId: 3
+  },
+  {
+    id: 4,
+    brand: "APPLE",
+    name: "MacBook Air M3",
+    tag: "✦ Baru",
+    tagColor: "#6366f1",
+    desc: "Chip M3 revolusioner, baterai hingga 18 jam, tanpa kipas angin — performa luar biasa dalam desain yang tipis dan elegan.",
+    specs: ["Apple M3", "8-Core GPU", "16GB RAM", "512GB SSD", "18 Jam Baterai"],
+    price: "Rp 19.999.000",
+    priceOld: null,
+    img: "c:\Users\Hanjaya\Downloads\images-removebg-preview (2).jpg",
+    bg: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)",
+    glow: "#94a3b8",
+    accentColor: "#cbd5e1",
+    floatNum: "18 Jam", floatLabel: "Baterai",
+    productId: 4
+  },
+  {
+    id: 5,
+    brand: "MSI",
+    name: "Raider GE78 HX",
+    tag: "🔥 Terlaris",
+    tagColor: "#dc2626",
+    desc: "Monster gaming sejati — RTX 4080 + Core i9-14900HX + 64GB DDR5. Performa absolut untuk gamer hardcore tanpa kompromi.",
+    specs: ["RTX 4080", "i9-14900HX", "64GB DDR5", "2TB NVMe", "240Hz QHD+"],
+    price: "Rp 35.500.000",
+    priceOld: "Rp 38.000.000",
+    img: "c:\Users\Hanjaya\Downloads\81PX4yLSehL-removebg-preview.jpg",
+    bg: "linear-gradient(135deg, #0f172a 0%, #1a0505 50%, #0f172a 100%)",
+    glow: "#dc2626",
+    accentColor: "#fca5a5",
+    floatNum: "7%", floatLabel: "Hemat",
+    productId: 5
+  },
+  {
+    id: 6,
+    brand: "DELL",
+    name: "XPS 15 OLED",
+    tag: "⭐ Premium",
+    tagColor: "#0891b2",
+    desc: "Layar OLED 3.5K dengan akurasi warna DCI-P3 100%. Pilihan sempurna untuk desainer grafis dan kreator konten profesional.",
+    specs: ["RTX 4060", "i7-13700H", "16GB DDR5", "1TB SSD", "3.5K OLED"],
+    price: "Rp 31.499.000",
+    priceOld: null,
+    img: "c:\\Users\\Hanjaya\\Downloads\\Gear-Dell-XPS-15-OLED-1-removebg-preview.png",
+    bg: "linear-gradient(135deg, #0f172a 0%, #0c1e2e 50%, #0f172a 100%)",
+    glow: "#0891b2",
+    accentColor: "#38bdf8",
+    floatNum: "100%", floatLabel: "DCI-P3",
+    productId: 6
+  }
+];
+
+let currentSlide = 0;
+let autoSlideTimer = null;
+
+function buildCarousel() {
+  const track = document.getElementById('carouselTrack');
+  const dots = document.getElementById('carouselDots');
+
+  track.innerHTML = carouselSlides.map(s => {
+    const specsHtml = s.specs.map(sp => '<span class="slide-spec-chip">' + sp + '</span>').join('');
+    const priceOldHtml = s.priceOld ? '<span class="slide-price-old">' + s.priceOld + '</span>' : '';
+    return '<div class="carousel-slide" style="background: ' + s.bg + ';">' +
+      '<div class="slide-bg-glow" style="background: ' + s.glow + ';"></div>' +
+      '<div class="slide-float-badge" style="top:1.5rem; right:2rem;">' +
+        '<div class="float-badge-num" style="color:' + s.accentColor + '">' + s.floatNum + '</div>' +
+        '<div class="float-badge-label">' + s.floatLabel + '</div>' +
+      '</div>' +
+      '<div class="slide-content">' +
+        '<div class="slide-tag" style="background:' + s.tagColor + '22; color:' + s.tagColor + '; border:1px solid ' + s.tagColor + '55;">' + s.tag + '</div>' +
+        '<div class="slide-brand" style="color:' + s.accentColor + ';">' + s.brand + '</div>' +
+        '<div class="slide-name">' + s.name + '</div>' +
+        '<div class="slide-desc">' + s.desc + '</div>' +
+        '<div class="slide-specs-row">' + specsHtml + '</div>' +
+        '<div class="slide-price-row"><span class="slide-price">' + s.price + '</span>' + priceOldHtml + '</div>' +
+        '<div class="slide-btns">' +
+          '<button class="slide-btn-primary" data-open-modal="' + s.productId + '" style="background:' + s.accentColor + '; color:#0f172a;">Lihat Detail \u2192</button>' +
+          '<button class="slide-btn-outline" data-scroll-products="1">Semua Produk</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="slide-visual"><img src="' + s.img + '" alt="' + s.name + '" loading="lazy"></div>' +
+    '</div>';
+  }).join('');
+
+  // Event delegation — satu listener untuk semua tombol carousel
+  track.addEventListener('click', function(e) {
+    var btnDetail = e.target.closest('[data-open-modal]');
+    var btnScroll = e.target.closest('[data-scroll-products]');
+    if (btnDetail) {
+      e.stopPropagation();
+      openModal(parseInt(btnDetail.getAttribute('data-open-modal')));
+    }
+    if (btnScroll) {
+      e.stopPropagation();
+      document.querySelector('section').scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  dots.innerHTML = carouselSlides.map(function(_, i) {
+    return '<button class="carousel-dot ' + (i === 0 ? 'active' : '') + '" data-slide="' + i + '"></button>';
+  }).join('');
+
+  dots.addEventListener('click', function(e) {
+    var dot = e.target.closest('[data-slide]');
+    if (dot) { resetAutoSlide(); goToSlide(parseInt(dot.getAttribute('data-slide'))); }
+  });
+
+  startAutoSlide();
+}
+
+function goToSlide(idx) {
+  currentSlide = (idx + carouselSlides.length) % carouselSlides.length;
+  document.getElementById('carouselTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+}
+
+function carouselMove(dir) {
+  resetAutoSlide();
+  goToSlide(currentSlide + dir);
+}
+
+function startAutoSlide() {
+  autoSlideTimer = setInterval(() => goToSlide(currentSlide + 1), 4500);
+}
+
+function resetAutoSlide() {
+  clearInterval(autoSlideTimer);
+  startAutoSlide();
+}
+
+// Touch/swipe support
+let touchStartX = 0;
+document.getElementById('heroCarousel').addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.getElementById('heroCarousel').addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) carouselMove(diff > 0 ? 1 : -1);
+});
+
+buildCarousel();
+
+/* ======================================== */
 
 renderProducts('all');
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModalDirect(); });
 </script>
 </body>
 </html>

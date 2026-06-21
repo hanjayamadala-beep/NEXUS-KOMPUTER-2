@@ -43,20 +43,21 @@
       background: #ffffff;
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
-      height: 64px;
+      height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     .logo {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--neon);
-      letter-spacing: 0px;
-      text-shadow: none;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
     }
-    .logo span { color: #1e293b; }
+    .logo img {
+      height: 54px;
+      width: auto;
+      object-fit: contain;
+    }
     .nav-links {
       display: flex;
       gap: 2rem;
@@ -67,8 +68,6 @@
       text-decoration: none;
       font-size: 0.9rem;
       font-weight: 500;
-      letter-spacing: 0px;
-      text-transform: none;
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--neon); }
@@ -87,10 +86,10 @@
     }
 
     /* ================= CONTENT ================= */
-   .container {
+    .container {
       max-width: 900px;
       margin: auto;
-      padding: 100px 2rem 60px;
+      padding: 112px 2rem 60px;
     }
     .container h2 {
       text-align: center;
@@ -109,16 +108,16 @@
 
     /* SERVICES */
     .services {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
 
-@media (max-width: 768px) {
-  .services {
-    grid-template-columns: 1fr;
-  }
-}
+    @media (max-width: 768px) {
+      .services {
+        grid-template-columns: 1fr;
+      }
+    }
 
     .card {
       background: var(--card);
@@ -191,9 +190,11 @@
 
 <body>
 
-  <!-- NAVBAR (sama dengan halaman utama) -->
+  <!-- NAVBAR -->
   <nav>
-    <div class="logo">Nexus<span></span></div>
+    <a href="Home.html" class="logo">
+      <img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100111250/78c2684e-37b8-46.png" alt="Nexus Logo" crossorigin="anonymous">
+    </a>
     <ul class="nav-links">
       <li><a href="Home.html">Home</a></li>
       <li><a href="Layanan.html">Layanan</a></li>
@@ -238,10 +239,11 @@
     </div>
   </section>
 
-  <!-- FOOTER (sama dengan halaman utama) -->
+  <!-- FOOTER -->
   <footer>
     2025 <span>Nexus</span> — Jl. Teknologi No. 88, Surakarta &nbsp;|&nbsp; WA: 0812-3456-7890 &nbsp;|&nbsp; Garansi Resmi Tersedia
   </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 </body>
