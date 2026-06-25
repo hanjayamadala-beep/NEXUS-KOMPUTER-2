@@ -1,259 +1,135 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Layanan Toko Online Laptop</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Toko Online Laptop</title>
 
-  <style>
-    :root {
-      --neon: #1d4ed8;
-      --neon2: #2563eb;
-      --bg: #f8fafc;
-      --bg2: #ffffff;
-      --bg3: #f1f5f9;
-      --card: #ffffff;
-      --border: #e2e8f0;
-      --text: #1e293b;
-      --muted: #64748b;
-    }
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <!-- Bootstrap 5 CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-
-    /* ================= NAVBAR ================= */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: #ffffff;
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    /* --- PERUBAHAN LOGO DI SINI --- */
-  .logo {
-    display: flex;
-    align-items: center;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--neon);
-    letter-spacing: 0px;
-    text-shadow: none;
-    text-decoration: none;
-      margin-top: -10px;
-  }
-  .logo img {
-    height: 80px; /* Sesuaikan tinggi logo agar pas di navbar */
-    width: auto;
-    display: block;
-    object-fit: contain;
-  }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--neon); }
-    .nav-badge {
-      background: var(--neon);
-      color: #fff;
-      padding: 8px 16px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      border-radius: 6px;
-      text-decoration: none;
-    }
-
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-    }
-
-    /* ================= CONTENT ================= */
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 112px 2rem 60px;
-    }
-    .container h2 {
-      text-align: center;
-      margin-bottom: 8px;
-      color: var(--neon);
-      font-size: 1.6rem;
-      font-weight: 700;
-    }
-
-    .section-sub {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 40px;
-    }
-
-    /* SERVICES */
-    .services {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-
-    @media (max-width: 768px) {
-      .services {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .card {
-      background: var(--card);
-      padding: 1.5rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--neon);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    .card:hover {
-      border-color: #bfdbfe;
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-    }
-
-    .card:hover::before { opacity: 1; }
-
-    .card h3 {
-      color: var(--neon);
-      margin-bottom: 10px;
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .card p {
-      line-height: 1.6;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 8px 16px;
-      background: var(--neon);
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-
-    .btn:hover { background: #1e40af; }
-
-    /* ================= FOOTER ================= */
-    footer {
-      border-top: 1px solid var(--border);
-      background: #ffffff;
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-    footer span { color: var(--neon); font-weight: 600; }
-  </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style-layanan.css">
 </head>
-
 <body>
 
-  <!-- NAVBAR -->
-  <nav>
-    <a href="Home.html" class="logo">
-      <img src="Logo%20saya.png" alt="Nexus Logo">
-    </a>
-    <ul class="nav-links">
-      <li><a href="Home.html">Home</a></li>
-      <li><a href="Layanan.html">Layanan</a></li>
-      <li><a href="diagnosa-kerusakan.html">Diagnosa</a></li>
-      <li><a href="rekomendasi-laptop.html">Rekomendasi</a></li>
-      <li><a href="kontak.html">Kontak</a></li>
-    </ul>
-    <a class="nav-badge" href="garansi.html">Garansi Resmi</a>
-  </nav>
+    <!-- NAVBAR (selaras dengan Home) -->
+    <nav>
+        <a href="Home.html" class="logo">
+            <img src="Logo%20saya.png" alt="Nexus Logo">
+        </a>
+        <ul class="nav-links">
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="Layanan.html">Layanan</a></li>
+            <li><a href="diagnosa-kerusakan.html">Diagnosa</a></li>
+            <li><a href="rekomendasi-laptop.html">Rekomendasi</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+        </ul>
+        <a class="nav-badge" href="garansi.html">Garansi Resmi</a>
+    </nav>
 
-  <!-- LAYANAN -->
-  <section class="container">
-    <h2>Layanan Kami</h2>
-    <p class="section-sub">Solusi lengkap untuk semua kebutuhan laptop kamu</p>
+    <!-- LAYANAN SECTION -->
+    <section class="container">
+        <h2>Layanan Kami</h2>
+        <p class="section-sub">Solusi lengkap untuk semua kebutuhan laptop kamu</p>
 
-    <div class="services">
+        <div class="services">
+            <div class="card">
+                <h3>Penjualan Laptop</h3>
+                <p>Kami menyediakan berbagai merek laptop terbaru dengan kualitas terbaik dan garansi resmi.</p>
+                <a href="Home.html" class="btn">Lihat Produk</a>
+            </div>
 
-      <div class="card">
-        <h3>Penjualan Laptop</h3>
-        <p>Kami menyediakan berbagai merek laptop terbaru dengan kualitas terbaik dan garansi resmi.</p>
-        <a href="Home.html" class="btn">Lihat Produk</a>
-      </div>
+            <div class="card">
+                <h3>Service Laptop</h3>
+                <p>Melayani perbaikan hardware dan software laptop dengan teknisi profesional dan terpercaya.</p>
+                <a href="diagnosa-kerusakan.html" class="btn">Pesan Service</a>
+            </div>
 
-      <div class="card">
-        <h3>Service Laptop</h3>
-        <p>Melayani perbaikan hardware dan software laptop dengan teknisi profesional dan terpercaya.</p>
-        <a href="diagnosa-kerusakan.html" class="btn">Pesan Service</a>
-      </div>
+            <div class="card">
+                <h3>Upgrade Komponen</h3>
+                <p>Upgrade RAM, SSD, dan komponen lainnya agar performa laptop lebih cepat dan optimal.</p>
+                <a href="diagnosa-kerusakan.html" class="btn">Upgrade Sekarang</a>
+            </div>
 
-      <div class="card">
-        <h3>Upgrade Komponen</h3>
-        <p>Upgrade RAM, SSD, dan komponen lainnya agar performa laptop lebih cepat dan optimal.</p>
-        <a href="diagnosa-kerusakan.html" class="btn">Upgrade Sekarang</a>
-      </div>
+            <div class="card">
+                <h3>Konsultasi Gratis</h3>
+                <p>Bingung memilih laptop? Kami siap membantu sesuai kebutuhan gaming, kerja, maupun kuliah.</p>
+                <a href="rekomendasi-laptop.html" class="btn">Konsultasi</a>
+            </div>
+        </div>
+    </section>
 
-      <div class="card">
-        <h3>Konsultasi Gratis</h3>
-        <p>Bingung memilih laptop? Kami siap membantu sesuai kebutuhan gaming, kerja, maupun kuliah.</p>
-        <a href="rekomendasi-laptop.html" class="btn">Konsultasi</a>
-      </div>
+    <!-- FOOTER (selaras dengan Home) -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <span class="footer-brand">NEXUS</span>
+                    <span class="footer-badge">SALES</span>
+                </div>
+                <div class="footer-address">
+                    <strong>NEXUS</strong> Jakarta<br>
+                    JL. Gunung Sahari Raya 1<br>
+                    Ruko Mangga Dua Square Blok A No. 8<br>
+                    Pademangan, Jakarta Utara 14420
+                </div>
+                <div class="footer-hours">
+                    <strong>Operasional:</strong> Senin – Sabtu<br>
+                    09:00 – 18:30 WIB<br>
+                    <span>Minggu</span> 09:00 – 16:30 WIB
+                </div>
+                <div class="footer-phone">📞 0812-9700-9800</div>
+                <div class="footer-email">sales@nexus</div>
+            </div>
 
-    </div>
-  </section>
+            <div class="footer-col">
+                <h4>Akun dan Kontak</h4>
+                <ul>
+                    <li><a href="#">Masuk / Daftar</a></li>
+                    <li><a href="#">Lokasi Toko</a></li>
+                    <li><a href="#">Kontak Kami</a></li>
+                </ul>
+            </div>
 
-  <!-- FOOTER -->
-  <footer>
-    2025 <span>Nexus</span> — Jl. Teknologi No. 88, Surakarta &nbsp;|&nbsp; WA: 0812-3456-7890 &nbsp;|&nbsp; Garansi Resmi Tersedia
-  </footer>
+            <div class="footer-col">
+                <h4>Tautan Cepat</h4>
+                <ul>
+                    <li><a href="#">Kebijakan Pengembalian Barang</a></li>
+                    <li><a href="#">Kebijakan Pengembalian Dana</a></li>
+                    <li><a href="#">Kebijakan Pembatalan Pesanan</a></li>
+                    <li><a href="#">Kebijakan Pengiriman</a></li>
+                    <li><a href="#">FAQ's</a></li>
+                </ul>
+            </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+            <div class="footer-col">
+                <h4>Layanan NexusCare</h4>
+                <ul>
+                    <li><a href="#">Register Service Warranty Ext</a></li>
+                    <li><a href="#">Reservasi Perbaikan</a></li>
+                    <li><a href="#">Reservasi Pengambilan Service</a></li>
+                </ul>
+            </div>
+        </div>
 
+        <div class="footer-copyright">
+            © 2026. All rights reserved by <strong>NEXUS</strong>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous">
+    </script>
+
+    <!-- Custom JavaScript -->
+    <script src="/Js/script-layanan.js"></script>
 </body>
 </html>
