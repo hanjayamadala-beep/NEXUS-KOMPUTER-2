@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasir — Sentra Komputer Nusantara</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Inter:wght@200;300;400&family=Fira+Code:wght@400&display=swap">
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.13/dist/lenis.min.js"></script>
+
+<style>
+:root {
+  --bg: #0a0a0a;
+  --text: #ffffff;
+  --text-soft: #dadada;
+  --text-mute: #888888;
+  --accent: rgba(200, 170, 130, 1);
+  --accent-soft: rgba(200, 170, 130, 0.25);
+  --line: rgba(255, 255, 255, 0.10);
+  --line-soft: rgba(255, 255, 255, 0.06);
+  --ease-quiet: cubic-bezier(.22, 1, .36, 1);
+  --ease-precise: cubic-bezier(.4, 0, .2, 1);
+  --ease-emphasis: cubic-bezier(.16, 1, .3, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--accent-soft); color: var(--text); }
+
+/* ============ NAVBAR ============ */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.25rem 2rem;
+  background: rgba(10, 10, 10, 0);
+  border-bottom: 1px solid transparent;
+  transition: background 400ms var(--ease-quiet), border-color 400ms var(--ease-quiet), padding 400ms var(--ease-quiet);
+}
+.navbar.scrolled {
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom-color: var(--line);
+  padding: 0.9rem 2rem;
+}
+.nav-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.nav-logo {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.nav-logo::before {
+  content: '';
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2.2rem;
+  align-items: center;
+}
+.nav-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  text-decoration: none;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color 300ms var(--ease-quiet);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 400ms var(--ease-quiet);
+}
+.nav-link:hover { color: var(--text); }
+.nav-link:hover::after { width: 100%; }
+.nav-link.active { color: var(--accent); }
+.nav-link.active::after { width: 100%; }
+
+.nav-cta {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 0.7rem 1.4rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 300ms var(--ease-quiet);
+}
+.nav-cta:hover { background: var(--text); }
+
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+.nav-toggle span {
+  display: block;
+  width: 22px; height: 1px;
+  background: var(--text);
+  margin: 5px 0;
+  transition: transform 300ms var(--ease-quiet);
+}
+
+@media (max-width: 980px) {
+  .nav-links {
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    gap: 0;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    transform: translateY(-120%);
+    transition: transform 400ms var(--ease-quiet);
+  }
+  .nav-links.open { transform: translateY(0); }
+  .nav-links li { width: 100%; border-bottom: 1px solid var(--line-soft); }
+  .nav-link { display: block; padding: 1rem 2rem; }
+  .nav-toggle { display: block; }
+  .nav-cta { display: none; }
+}
+
+/* ============ HERO ============ */
+.hero {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10rem 2rem 5rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.hero-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 3rem;
+  height: 1px;
+  background: var(--accent);
+}
+.hero-title {
+  font-family: 'EB Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  max-width: 14ch;
+  opacity: 0;
+  transform: translateY(40px);
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-soft);
+  max-width: 56ch;
+  margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  max-width: 800px;
+  padding-top: 3rem;
+  border-top: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(20px);
+}
+.stat-num {
+  font-family: 'EB Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.stat-num em { color: var(--accent); font-style: normal; }
+.stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+/* ============ POS SECTION ============ */
+.pos-section {
+  padding: 6rem 2rem 8rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.section-head {
+  margin-bottom: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.section-head-left { max-width: 600px; }
+.section-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.section-eyebrow::after {
+  content: '';
+  width: 2rem;
+  height: 1px;
+  background: var(--accent);
+}
+.section-title {
+  font-family: 'EB Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.section-desc {
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  max-width: 50ch;
+  margin-top: 1rem;
+}
+
+.cashier-id {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  text-align: right;
+}
+.cashier-id span { color: var(--accent); }
+
+/* ============ POS LAYOUT ============ */
+.pos-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .pos-grid { grid-template-columns: 1fr; }
+}
+
+/* ============ CATALOG ============ */
+.catalog-controls {
+  margin-bottom: 2rem;
+}
+.search-bar {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 1rem 1.25rem;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  outline: none;
+  transition: border-color 300ms var(--ease-quiet);
+  margin-bottom: 1.5rem;
+}
+.search-bar:focus { border-color: var(--accent); }
+.search-bar::placeholder { color: var(--text-mute); }
+
+.category-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.cat-tab {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 0.65rem 1.25rem;
+  cursor: pointer;
+  transition: all 300ms var(--ease-quiet);
+}
+.cat-tab:hover {
+  border-color: var(--accent-soft);
+  color: var(--text);
+}
+.cat-tab.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid var(--line);
+  padding: 1.5rem;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 400ms var(--ease-quiet), transform 400ms var(--ease-quiet);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.product-card.in-view { opacity: 1; transform: none; transition: opacity 800ms var(--ease-quiet), transform 800ms var(--ease-quiet), border-color 400ms var(--ease-quiet); }
+.product-card:hover {
+  border-color: var(--accent-soft);
+}
+.product-card:hover .product-add { background: var(--accent); color: var(--bg); }
+.product-card:hover .product-img { transform: scale(1.05); }
+
+.product-img-wrap {
+  width: 100%;
+  height: 140px;
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--line-soft);
+}
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease-quiet);
+  filter: grayscale(0.3) brightness(0.85);
+}
+.product-cat {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.product-name {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text);
+}
+.product-specs {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: var(--text-mute);
+  line-height: 1.6;
+  flex: 1;
+}
+.product-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-soft);
+  gap: 0.5rem;
+}
+.product-price {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.95rem;
+  color: var(--text);
+  font-weight: 400;
+}
+.product-stock {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--text-mute);
+}
+.product-stock.low { color: var(--accent); }
+.product-add {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.7);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 300ms var(--ease-quiet);
+  z-index: 2;
+}
+.product-add:hover { transform: scale(1.1); }
+
+/* ============ CART PANEL ============ */
+.cart-panel {
+  position: sticky;
+  top: 100px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.015);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 120px);
+}
+
+.cart-head {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart-head-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+.cart-clear {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 300ms var(--ease-quiet);
+}
+.cart-clear:hover { color: var(--accent); }
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+  min-height: 100px;
+  max-height: 300px;
+}
+.cart-items::-webkit-scrollbar { width: 4px; }
+.cart-items::-webkit-scrollbar-thumb { background: var(--line); }
+
+.cart-empty {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--text-mute);
+  font-size: 0.85rem;
+  font-style: italic;
+  font-family: 'EB Garamond', serif;
+}
+
+.cart-item {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--line-soft);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: start;
+  animation: slideIn 400ms var(--ease-quiet);
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: none; }
+}
+.cart-item-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 0.25rem;
+}
+.cart-item-specs {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: var(--text-mute);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+.cart-item-price {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.qty-btn {
+  width: 22px; height: 22px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text-soft);
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms var(--ease-quiet);
+  line-height: 1;
+}
+.qty-btn:hover { border-color: var(--accent); color: var(--accent); }
+.qty-num {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8rem;
+  color: var(--text);
+  min-width: 24px;
+  text-align: center;
+}
+.cart-item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.cart-item-total {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.cart-item-remove {
+  background: none;
+  border: none;
+  color: var(--text-mute);
+  cursor: pointer;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 200ms var(--ease-quiet);
+  padding: 0;
+}
+.cart-item-remove:hover { color: var(--accent); }
+
+/* Customer info */
+.customer-section {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.customer-section label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 0.5rem;
+  margin-top: 0.75rem;
+}
+.customer-section input,
+.customer-section textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 0.5rem 0;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 300ms var(--ease-quiet);
+}
+.customer-section input:focus,
+.customer-section textarea:focus { border-color: var(--accent); }
+.customer-section textarea { resize: none; min-height: 30px; }
+
+/* Cart summary */
+.cart-summary {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  font-size: 0.85rem;
+}
+.summary-row span:first-child {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-mute);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}
+.summary-row span:last-child {
+  font-family: 'Fira Code', monospace;
+  color: var(--text-soft);
+}
+.summary-row.discount span:last-child { color: var(--accent); }
+.summary-row.total {
+  border-top: 1px solid var(--line);
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+}
+.summary-row.total span:first-child {
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  color: var(--text);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.summary-row.total span:last-child {
+  font-family: 'Fira Code', monospace;
+  font-size: 1.3rem;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.discount-row {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.25rem;
+}
+.discount-input {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 0.5rem 0.75rem;
+  color: var(--text);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8rem;
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: border-color 300ms var(--ease-quiet);
+}
+.discount-input:focus { border-color: var(--accent); }
+.discount-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text-soft);
+  padding: 0 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 300ms var(--ease-quiet);
+}
+.discount-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Payment */
+.payment-section {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.payment-methods {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.pay-method {
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 0.7rem 0.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: all 300ms var(--ease-quiet);
+}
+.pay-method:hover { border-color: var(--accent-soft); color: var(--text); }
+.pay-method.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+.cash-input-wrap {
+  margin-top: 1rem;
+  display: none;
+}
+.cash-input-wrap.show { display: block; }
+.cash-input-wrap label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.cash-input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 0.6rem 0.75rem;
+  color: var(--text);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 300ms var(--ease-quiet);
+}
+.cash-input:focus { border-color: var(--accent); }
+.cash-quick {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.cash-quick button {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text-soft);
+  padding: 0.4rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: all 200ms var(--ease-quiet);
+}
+.cash-quick button:hover { border-color: var(--accent); color: var(--accent); }
+.cash-change {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(200, 170, 130, 0.05);
+  border: 1px solid var(--accent-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cash-change-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+.cash-change-amount {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+.cash-change.insufficient { border-color: rgba(255, 100, 100, 0.4); background: rgba(255, 100, 100, 0.05); }
+.cash-change.insufficient .cash-change-amount { color: #ff8888; }
+
+.checkout-btn {
+  margin: 1.25rem 1.5rem 1.5rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  padding: 1.1rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background 300ms var(--ease-quiet);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.checkout-btn:hover { background: var(--text); }
+.checkout-btn:disabled {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text-mute);
+  cursor: not-allowed;
+}
+.checkout-btn-arrow {
+  display: inline-block;
+  transition: transform 300ms var(--ease-quiet);
+}
+.checkout-btn:not(:disabled):hover .checkout-btn-arrow { transform: translateX(4px); }
+
+/* ============ MODAL ============ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-quiet);
+}
+.modal-overlay.active { display: flex; opacity: 1; }
+
+.modal-content {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  max-width: 460px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.95);
+  transition: transform 500ms var(--ease-emphasis);
+}
+.modal-overlay.active .modal-content { transform: scale(1); }
+
+.modal-close {
+  position: absolute;
+  top: 1.5rem; right: 1.5rem;
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--text-soft);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 300ms var(--ease-quiet);
+  z-index: 10;
+}
+.modal-close:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Receipt */
+.receipt {
+  padding: 2.5rem 2rem;
+  position: relative;
+}
+.receipt-head {
+  text-align: center;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px dashed var(--line);
+  margin-bottom: 1.5rem;
+}
+.receipt-store {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+.receipt-store-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.receipt-addr {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-mute);
+  line-height: 1.6;
+}
+.receipt-meta {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.7rem;
+  color: var(--text-soft);
+  line-height: 1.8;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--line);
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+}
+.receipt-meta dt { color: var(--text-mute); letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.62rem; padding-top: 2px; }
+.receipt-meta dd { text-align: right; }
+
+.receipt-customer {
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--line);
+  margin-bottom: 1rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.7rem;
+  line-height: 1.8;
+}
+.receipt-customer div { display: flex; justify-content: space-between; }
+.receipt-customer div span:first-child { color: var(--text-mute); letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.62rem; padding-top: 2px; }
+
+.receipt-items {
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--line);
+  margin-bottom: 1rem;
+}
+.receipt-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  font-size: 0.78rem;
+}
+.receipt-item-name {
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  font-weight: 400;
+}
+.receipt-item-qty {
+  font-family: 'Fira Code', monospace;
+  color: var(--text-mute);
+  font-size: 0.7rem;
+  margin-top: 0.15rem;
+}
+.receipt-item-price {
+  font-family: 'Fira Code', monospace;
+  color: var(--text);
+  text-align: right;
+}
+
+.receipt-totals {
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--line);
+  margin-bottom: 1rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.78rem;
+}
+.receipt-totals .summary-row span:first-child {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+.receipt-totals .summary-row span:last-child { color: var(--text-soft); }
+.receipt-totals .summary-row.total span:first-child {
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  color: var(--text);
+}
+.receipt-totals .summary-row.total span:last-child {
+  color: var(--accent);
+  font-size: 1.2rem;
+}
+
+.receipt-pay {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.78rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px dashed var(--line);
+}
+.receipt-pay .summary-row span:first-child {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.receipt-foot {
+  text-align: center;
+  padding-top: 0.5rem;
+}
+.receipt-thanks {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+.receipt-warranty {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.receipt-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.receipt-action {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text-soft);
+  padding: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 300ms var(--ease-quiet);
+}
+.receipt-action:hover { border-color: var(--accent); color: var(--accent); }
+.receipt-action.primary {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.receipt-action.primary:hover { background: var(--text); border-color: var(--text); }
+
+/* ============ FOOTER ============ */
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 5rem 2rem 2rem;
+  margin-top: 4rem;
+}
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+@media (max-width: 768px) {
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+.footer-brand {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.footer-tagline {
+  font-size: 0.85rem;
+  color: var(--text-mute);
+  max-width: 32ch;
+  line-height: 1.7;
+}
+.footer-col h4 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+  font-weight: 400;
+}
+.footer-col ul { list-style: none; }
+.footer-col li {
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  padding: 0.35rem 0;
+  cursor: pointer;
+  transition: color 300ms var(--ease-quiet);
+}
+.footer-col li:hover { color: var(--accent); }
+.footer-bottom {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.7rem;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+}
+
+/* ============ TOAST ============ */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--accent);
+  color: var(--text);
+  padding: 0.85rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  z-index: 3000;
+  opacity: 0;
+  transition: all 400ms var(--ease-quiet);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.toast::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ============ SECTION SPY TARGETS ============ */
+.section-spy {
+  min-height: 60vh;
+  padding: 8rem 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+}
+.section-spy .section-eyebrow { margin-bottom: 1rem; }
+.section-spy h2 {
+  font-family: 'EB Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+.section-spy p {
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  max-width: 60ch;
+  line-height: 1.8;
+}
+
+@media print {
+  .navbar, .footer, .receipt-actions, .modal-close { display: none !important; }
+  body { background: white; color: black; }
+  .modal-overlay { position: static; background: none; padding: 0; }
+  .modal-content { border: none; max-height: none; }
+  .receipt { padding: 0; }
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 8rem 1.5rem 4rem; }
+  .pos-section { padding: 4rem 1.5rem 6rem; }
+  .pos-grid { gap: 2rem; }
+  .cart-panel { position: static; max-height: none; }
+  .footer { padding: 4rem 1.5rem 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- =================== NAVBAR =================== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">Sentra Komputer</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="nav-link" data-target="home">Home</a></li>
+      <li><a href="#diagnosa" class="nav-link" data-target="diagnosa">Diagnosa</a></li>
+      <li><a href="#rekomendasi" class="nav-link" data-target="rekomendasi">Rekomendasi</a></li>
+      <li><a href="#kasir" class="nav-link" data-target="kasir">Kasir</a></li>
+      <li><a href="#layanan" class="nav-link" data-target="layanan">Layanan</a></li>
+      <li><a href="#garansi" class="nav-link" data-target="garansi">Garansi</a></li>
+      <li><a href="#kontak" class="nav-link" data-target="kontak">Kontak</a></li>
+    </ul>
+    <a href="#kasir" class="nav-cta" data-target="kasir">Buka Kasir</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- =================== HERO =================== -->
+<section class="hero" id="home">
+  <div class="hero-eyebrow" id="heroEyebrow">Point of Sale · v3.2</div>
+  <h1 class="hero-title" id="heroTitle">
+    Kasir untuk <em>setiap</em> unit yang keluar dari toko.
+  </h1>
+  <p class="hero-sub" id="heroSub">
+    Sistem transaksi yang dirancang khusus untuk penjualan komputer dan komponen.
+    Setiap item — desktop, laptop, processor, monitor — punya spek lengkap yang ikut
+    tercetak di struk. PPN 11% dihitung otomatis, kembalian dihitung otomatis,
+    garansi tercatat per serial number.
+  </p>
+  <div class="hero-stats" id="heroStats">
+    <div>
+      <div class="stat-num"><em>24</em> SKU</div>
+      <div class="stat-label">Produk Tersedia</div>
+    </div>
+    <div>
+      <div class="stat-num"><em>11</em>%</div>
+      <div class="stat-label">PPN Dihitung Otomatis</div>
+    </div>
+    <div>
+      <div class="stat-num"><em>4</em> Metode</div>
+      <div class="stat-label">Cash · Card · QRIS · Transfer</div>
+    </div>
+    <div>
+      <div class="stat-num"><em>12</em> Bulan</div>
+      <div class="stat-label">Garansi Default</div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== POS SECTION =================== -->
+<section class="pos-section" id="kasir">
+  <div class="section-head">
+    <div class="section-head-left">
+      <div class="section-eyebrow">Halaman Kasir</div>
+      <h2 class="section-title">Transaksi hari ini.</h2>
+      <p class="section-desc">
+        Pilih produk dari katalog, tambah ke keranjang, isi data pembeli, selesaikan pembayaran.
+        Struk bisa dicetak langsung atau disimpan sebagai PDF.
+      </p>
+    </div>
+    <div class="cashier-id">
+      Kasir: <span>Budi Santoso</span><br>
+      Shift: 09.00 — 17.00 WIB<br>
+      <span id="currentDate"></span>
+    </div>
+  </div>
+
+  <div class="pos-grid">
+
+    <!-- ========== CATALOG ========== -->
+    <div class="catalog">
+      <div class="catalog-controls">
+        <input type="text" class="search-bar" id="searchBar" placeholder="Cari produk, merek, atau spek…">
+        <div class="category-tabs" id="categoryTabs">
+          <button class="cat-tab active" data-cat="all">Semua</button>
+          <button class="cat-tab" data-cat="desktop">Desktop PC</button>
+          <button class="cat-tab" data-cat="laptop">Laptop</button>
+          <button class="cat-tab" data-cat="komponen">Komponen</button>
+          <button class="cat-tab" data-cat="periferal">Periferal</button>
+          <button class="cat-tab" data-cat="aksesoris">Aksesoris</button>
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+        <!-- products injected via JS -->
+      </div>
+    </div>
+
+    <!-- ========== CART PANEL ========== -->
+    <aside class="cart-panel" id="cartPanel">
+      <div class="cart-head">
+        <div class="cart-head-title">Keranjang</div>
+        <button class="cart-clear" id="cartClear">Kosongkan</button>
+      </div>
+
+      <div class="cart-items" id="cartItems">
+        <div class="cart-empty">Keranjang masih kosong.<br>Pilih produk dari katalog.</div>
+      </div>
+
+      <div class="customer-section">
+        <label for="custName">Nama Pembeli</label>
+        <input type="text" id="custName" placeholder="Wajib diisi">
+        <label for="custPhone">No. Telepon</label>
+        <input type="text" id="custPhone" placeholder="Untuk kontak garansi">
+        <label for="custNotes">Catatan</label>
+        <textarea id="custNotes" placeholder="Alamat kirim / catatan lain" rows="2"></textarea>
+      </div>
+
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Subtotal (<span id="itemCount">0</span> item)</span>
+          <span id="sumSubtotal">Rp 0</span>
+        </div>
+        <div class="summary-row discount">
+          <span>Diskon</span>
+          <span id="sumDiscount">— Rp 0</span>
+        </div>
+        <div class="discount-row">
+          <input type="text" class="discount-input" id="discountInput" placeholder="Kode diskon">
+          <button class="discount-btn" id="discountBtn">Pakai</button>
+        </div>
+        <div class="summary-row">
+          <span>PPN 11%</span>
+          <span id="sumTax">Rp 0</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span id="sumTotal">Rp 0</span>
+        </div>
+      </div>
+
+      <div class="payment-section">
+        <label style="font-family: Inter, sans-serif; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-mute); display: block; margin-bottom: 0.5rem;">Metode Pembayaran</label>
+        <div class="payment-methods" id="paymentMethods">
+          <button class="pay-method active" data-method="cash">Cash</button>
+          <button class="pay-method" data-method="card">Kartu</button>
+          <button class="pay-method" data-method="qris">QRIS</button>
+          <button class="pay-method" data-method="transfer">Transfer</button>
+        </div>
+
+        <div class="cash-input-wrap show" id="cashWrap">
+          <label for="cashReceived">Uang Diterima</label>
+          <input type="number" class="cash-input" id="cashReceived" placeholder="0" min="0">
+          <div class="cash-quick">
+            <button data-amount="50000">50K</button>
+            <button data-amount="100000">100K</button>
+            <button data-amount="500000">500K</button>
+            <button data-amount="exact">Uang Pas</button>
+          </div>
+          <div class="cash-change" id="cashChange">
+            <span class="cash-change-label">Kembalian</span>
+            <span class="cash-change-amount" id="cashChangeAmount">Rp 0</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="checkout-btn" id="checkoutBtn" disabled>
+        Proses Transaksi
+        <span class="checkout-btn-arrow">→</span>
+      </button>
+    </aside>
+
+  </div>
+</section>
+
+<!-- =================== SPY SECTIONS (placeholder sections for navbar consistency) =================== -->
+<section class="section-spy" id="diagnosa">
+  <div class="section-eyebrow">Diagnosa</div>
+  <h2>Diagnosa kebutuhan pembeli sebelum checkout.</h2>
+  <p>
+    Sebelum pembeli sampai ke halaman kasir, sistem diagnosa menanyakan kebutuhan utama:
+    gaming, content creation, office, atau development. Dari jawaban tersebut, rekomendasi
+    rakitan disusun dan pembeli bisa langsung membawa hasilnya ke kasir untuk diproses.
+  </p>
+</section>
+
+<section class="section-spy" id="rekomendasi">
+  <div class="section-eyebrow">Rekomendasi</div>
+  <h2>Rakitan yang sudah dipilihkan untuknya.</h2>
+  <p>
+    Halaman rekomendasi menampilkan 2–3 konfigurasi yang sesuai dengan hasil diagnosa.
+    Setiap konfigurasi punya rincian komponen, perkiraan harga, dan tombol "Bawa ke Kasir"
+    yang langsung mengisi keranjang dengan item-item rekomendasi.
+  </p>
+</section>
+
+<section class="section-spy" id="layanan">
+  <div class="section-eyebrow">Layanan</div>
+  <h2>Empat lapis layanan setelah transaksi.</h2>
+  <p>
+    Instalasi sistem operasi dan driver, transfer data dari unit lama, setup akun email dan
+    cloud, serta tutorial singkat penggunaan. Semua layanan ini tercatat di struk sebagai
+    baris terpisah dan dikenakan biaya sesuai tarif yang berlaku.
+  </p>
+</section>
+
+<section class="section-spy" id="garansi">
+  <div class="section-eyebrow">Garansi</div>
+  <h2>Garansi tercatat per serial number.</h2>
+  <p>
+    Setiap komponen punya nomor seri yang ikut tercetak di struk. Pembeli cukup menunjukkan
+    struk (atau menyebut nomor transaksi) untuk klaim garansi. Masa garansi standar 12 bulan
+    untuk komponen, 24 bulan untuk laptop dan PC rakitan, mengikuti kebijakan masing-masing
+    distributor.
+  </p>
+</section>
+
+<section class="section-spy" id="kontak">
+  <div class="section-eyebrow">Kontak</div>
+  <h2>Hubungi kami untuk pertanyaan pasca-transaksi.</h2>
+  <p>
+    Toko: Jl. Mangga Dua No. 47, Jakarta Pusat · 021-6123456.<br>
+    WhatsApp garansi: 0812-3456-7890.<br>
+    Email: hello@sentrakomputer.id<br>
+    Jam operasional: Senin–Sabtu, 09.00–20.00 WIB.
+  </p>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Sentra Komputer Nusantara</div>
+      <p class="footer-tagline">
+        Toko komputer spesialis rakitan custom sejak 2009. Setiap unit keluar toko
+        tercatat, terjamin, dan tergaransi.
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4>Produk</h4>
+      <ul>
+        <li>Desktop PC</li>
+        <li>Laptop</li>
+        <li>Komponen</li>
+        <li>Periferal</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Layanan</h4>
+      <ul>
+        <li>Diagnosa Kebutuhan</li>
+        <li>Rakitan Custom</li>
+        <li>Servis & Upgrade</li>
+        <li>Klaim Garansi</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontak</h4>
+      <ul>
+        <li>021-6123456</li>
+        <li>0812-3456-7890</li>
+        <li>hello@sentrakomputer.id</li>
+        <li>Mangga Dua, Jakarta</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Sentra Komputer Nusantara</span>
+    <span>v3.2 · build 240612</span>
+  </div>
+</footer>
+
+<!-- =================== RECEIPT MODAL =================== -->
+<div class="modal-overlay" id="receiptModal">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose">×</button>
+    <div class="receipt" id="receipt">
+      <!-- receipt content injected -->
+    </div>
+  </div>
+</div>
+
+<!-- =================== TOAST =================== -->
+<div class="toast" id="toast">Item ditambahkan ke keranjang</div>
+
+<script>
+// =================== LENIS SMOOTH SCROLL ===================
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+  smoothTouch: false,
+});
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+
+// =================== NAVBAR (consistent behavior) ===================
+const navbar = document.getElementById('navbar');
+const navLinks = document.querySelectorAll('.nav-link');
+const navToggle = document.getElementById('navToggle');
+const navLinksUl = document.getElementById('navLinks');
+
+// Scroll state
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 40) navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
+}, { passive: true });
+
+// Click handler — ALL nav links use the SAME smooth-scroll logic
+// (this is what makes Home / Layanan / Kontak / Garansi behave like Diagnosa / Rekomendasi)
+document.querySelectorAll('[data-target]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetId = link.getAttribute('data-target');
+    const targetEl = document.getElementById(targetId);
+    if (!targetEl) return;
+    const offset = 80;
+    const top = targetEl.getBoundingClientRect().top + window.scrollY - offset;
+    lenis.scrollTo(top, { duration: 1.2 });
+    navLinksUl.classList.remove('open');
+  });
+});
+
+// Mobile toggle
+navToggle.addEventListener('click', () => {
+  navLinksUl.classList.toggle('open');
+});
+
+// Scrollspy — sets active state based on which section is in view
+const sections = document.querySelectorAll('section[id]');
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('data-target') === id);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+sections.forEach(s => spy.observe(s));
+
+// =================== HERO INTRO (4-beat) ===================
+window.addEventListener('load', () => {
+  gsap.timeline({ delay: 0.3 })
+    .to('#heroEyebrow', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' })
+    .to('#heroTitle', { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out' }, '-=0.4')
+    .to('#heroSub', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.6')
+    .to('#heroStats', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4');
+});
+
+// =================== CURRENT DATE ===================
+const now = new Date();
+const dateStr = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+document.getElementById('currentDate').textContent = dateStr;
+
+// =================== PRODUCTS DATA ===================
+const products = [
+  // Desktop
+  { id: 'pc-001', name: 'Aurora Gaming Rig', category: 'desktop', specs: 'Intel i7-14700K · RTX 4070 Ti · 32GB DDR5 · 1TB NVMe · 850W Gold', price: 28500000, stock: 5, img: 'desktop-gaming-rig' },
+  { id: 'pc-002', name: 'Sentra Office Pro', category: 'desktop', specs: 'Intel i5-13400 · Intel UHD 730 · 16GB DDR4 · 512GB SSD · 400W', price: 8500000, stock: 12, img: 'desktop-office-pro' },
+  { id: 'pc-003', name: 'Creator Workstation X', category: 'desktop', specs: 'AMD Ryzen 9 7950X · RTX 4080 · 64GB DDR5 · 2TB NVMe · 1000W Platinum', price: 42000000, stock: 3, img: 'desktop-creator-ws' },
+  { id: 'pc-004', name: 'Budget Builder V2', category: 'desktop', specs: 'AMD Ryzen 5 5600 · GTX 1660 Super · 16GB DDR4 · 512GB SSD · 500W', price: 9800000, stock: 8, img: 'desktop-budget-build' },
+
+  // Laptop
+  { id: 'lp-001', name: 'ASUS ROG Strix G16', category: 'laptop', specs: 'i9-14900HX · RTX 4070 · 32GB · 1TB SSD · 16" QHD 240Hz', price: 32500000, stock: 4, img: 'laptop-rog-strix' },
+  { id: 'lp-002', name: 'MacBook Pro 14" M3 Pro', category: 'laptop', specs: 'Apple M3 Pro · 18GB Unified · 512GB SSD · Liquid Retina XDR', price: 32999000, stock: 6, img: 'laptop-macbook-pro' },
+  { id: 'lp-003', name: 'Lenovo ThinkPad X1 Carbon', category: 'laptop', specs: 'i7-1365U · 16GB · 1TB SSD · 14" 2.8K OLED · 1.12kg', price: 24500000, stock: 5, img: 'laptop-thinkpad-x1' },
+  { id: 'lp-004', name: 'Acer Aspire 5 Slim', category: 'laptop', specs: 'i3-1215U · 8GB · 256GB SSD · 15.6" FHD · 1.76kg', price: 7200000, stock: 15, img: 'laptop-aspire-slim' },
+
+  // Komponen
+  { id: 'cp-001', name: 'Intel Core i9-14900K', category: 'komponen', specs: '24 Core · 32 Thread · Up to 6.0 GHz · LGA1700 · 125W', price: 8999000, stock: 10, img: 'cpu-intel-i9' },
+  { id: 'cp-002', name: 'AMD Ryzen 9 7950X3D', category: 'komponen', specs: '16 Core · 32 Thread · 5.7 GHz · AM5 · 3D V-Cache · 120W', price: 9450000, stock: 7, img: 'cpu-amd-ryzen' },
+  { id: 'cp-003', name: 'NVIDIA RTX 4080 Super', category: 'komponen', specs: '16GB GDDR6X · 10240 CUDA · DLSS 3 · Ada Lovelace · 320W', price: 18500000, stock: 4, img: 'gpu-rtx-4080' },
+  { id: 'cp-004', name: 'Corsair Vengeance 32GB DDR5', category: 'komponen', specs: '2x16GB · 6000MHz · CL30 · AMD EXPO · 1.35V', price: 2200000, stock: 18, img: 'ram-corsair-vengeance' },
+  { id: 'cp-005', name: 'Samsung 990 PRO 2TB NVMe', category: 'komponen', specs: 'PCIe 4.0 · 7450 MB/s read · MLC · 5 Year Warranty', price: 3500000, stock: 22, img: 'ssd-samsung-990' },
+  { id: 'cp-006', name: 'ASUS ROG Maximus Z790 Hero', category: 'komponen', specs: 'LGA1700 · DDR5 · PCIe 5.0 · WiFi 6E · 22 phase power', price: 8750000, stock: 6, img: 'mobo-asus-z790' },
+  { id: 'cp-007', name: 'NZXT H7 Flow RGB Mid Tower', category: 'komponen', specs: 'ATX · 4mm Tempered Glass · Mesh Front · 7 Fan Slots', price: 1850000, stock: 14, img: 'case-nzxt-h7' },
+  { id: 'cp-008', name: 'Corsair RM850e 850W Gold', category: 'komponen', specs: '850W · 80+ Gold · Fully Modular · ATX 3.0 · 10yr warranty', price: 1950000, stock: 11, img: 'psu-corsair-rm850' },
+
+  // Periferal
+  { id: 'pr-001', name: 'Logitech MX Master 3S', category: 'periferal', specs: 'Wireless · 8K DPI · MagSpeed Scroll · USB-C · Silent Click', price: 1899000, stock: 25, img: 'mouse-logi-mx' },
+  { id: 'pr-002', name: 'Razer BlackWidow V4 Pro', category: 'periferal', specs: 'Mechanical · Green Switch · RGB Chroma · Wrist Rest · Macro', price: 2799000, stock: 14, img: 'kb-razer-bw' },
+  { id: 'pr-003', name: 'LG UltraGear 27GP850', category: 'periferal', specs: '27" · QHD 165Hz · Nano IPS · 1ms · G-Sync Compatible', price: 6500000, stock: 9, img: 'monitor-lg-ultragear' },
+  { id: 'pr-004', name: 'Audio-Technica ATH-M50x', category: 'periferal', specs: 'Studio Monitor · 45mm Driver · Detachable Cable · 90° swivel', price: 2250000, stock: 11, img: 'hp-audiotech-m50' },
+
+  // Aksesoris
+  { id: 'ak-001', name: 'UPS APC Back-UPS 1500VA', category: 'aksesoris', specs: '1500VA · 8 Outlets · AVR · LCD Display · Surge Protection', price: 2850000, stock: 8, img: 'ups-apc-1500' },
+  { id: 'ak-002', name: 'Anker 100W USB-C Charger', category: 'aksesoris', specs: 'GaN II · 4 Ports · PD 3.0 · PPS · Compact Foldable', price: 749000, stock: 30, img: 'charger-anker-100w' },
+  { id: 'ak-003', name: 'Cooling Pad Cooler Master U3', category: 'aksesoris', specs: '3 Fans · Adjustable Height · USB Hub · 17" Support', price: 549000, stock: 17, img: 'coolpad-cm-u3' },
+  { id: 'ak-004', name: 'Catatan Garansi Perpanjangan', category: 'aksesoris', specs: 'Perpanjangan garansi 12 bulan · berlaku per unit', price: 750000, stock: 99, img: 'warranty-extension' },
+];
+
+// =================== STATE ===================
+let cart = [];
+let currentCategory = 'all';
+let currentSearch = '';
+let paymentMethod = 'cash';
+let discount = 0;
+let discountCode = '';
+
+const DISCOUNT_CODES = {
+  'PROMO10': 0.10,
+  'PELANGGAN5': 0.05,
+  'GAJIAN15': 0.15,
+};
+
+// =================== FORMAT RUPIAH ===================
+const formatRupiah = (num) => 'Rp ' + Math.round(num).toLocaleString('id-ID');
+const parseRupiah = (str) => parseInt(str.replace(/[^0-9]/g, '')) || 0;
+
+// =================== RENDER PRODUCTS ===================
+const productGrid = document.getElementById('productGrid');
+
+function renderProducts() {
+  const filtered = products.filter(p => {
+    const matchCat = currentCategory === 'all' || p.category === currentCategory;
+    const matchSearch = currentSearch === '' ||
+      p.name.toLowerCase().includes(currentSearch) ||
+      p.specs.toLowerCase().includes(currentSearch);
+    return matchCat && matchSearch;
+  });
+
+  productGrid.innerHTML = '';
+
+  if (filtered.length === 0) {
+    productGrid.innerHTML = '<div style="grid-column: 1/-1; padding: 3rem; text-align: center; color: var(--text-mute); font-family: EB Garamond, serif; font-style: italic;">Tidak ada produk yang cocok.</div>';
+    return;
+  }
+
+  filtered.forEach((p, i) => {
+    const stockClass = p.stock <= 5 ? ' low' : '';
+    const card = document.createElement('article');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <button class="product-add" data-id="${p.id}" aria-label="Tambah ke keranjang">+</button>
+      <div class="product-img-wrap">
+        <img class="product-img" src="https://picsum.photos/seed/${p.img}/400/300" alt="${p.name}" loading="lazy">
+      </div>
+      <div class="product-cat">${p.category}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-specs">${p.specs}</div>
+      <div class="product-foot">
+        <div class="product-price">${formatRupiah(p.price)}</div>
+        <div class="product-stock${stockClass}">Stok: ${p.stock}</div>
+      </div>
+    `;
+    card.addEventListener('click', () => addToCart(p.id));
+    productGrid.appendChild(card);
+
+    // stagger fade-in
+    setTimeout(() => card.classList.add('in-view'), 60 + i * 50);
+  });
+}
+
+// Category tabs
+document.querySelectorAll('.cat-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCategory = btn.dataset.cat;
+    renderProducts();
+  });
+});
+
+// Search
+document.getElementById('searchBar').addEventListener('input', (e) => {
+  currentSearch = e.target.value.toLowerCase().trim();
+  renderProducts();
+});
+
+// =================== CART ===================
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+  if (product.stock === 0) {
+    showToast('Stok habis');
+    return;
+  }
+
+  const existing = cart.find(item => item.id === id);
+  if (existing) {
+    if (existing.qty >= product.stock) {
+      showToast('Melebihi stok tersedia');
+      return;
+    }
+    existing.qty++;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+  renderCart();
+  showToast(`${product.name} ditambahkan`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  renderCart();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  const product = products.find(p => p.id === id);
+  const newQty = item.qty + delta;
+  if (newQty <= 0) {
+    removeFromCart(id);
+    return;
+  }
+  if (newQty > product.stock) {
+    showToast('Melebihi stok tersedia');
+    return;
+  }
+  item.qty = newQty;
+  renderCart();
+}
+
+function clearCart() {
+  cart = [];
+  discount = 0;
+  discountCode = '';
+  document.getElementById('discountInput').value = '';
+  renderCart();
+}
+
+const cartItemsEl = document.getElementById('cartItems');
+const itemCountEl = document.getElementById('itemCount');
+const sumSubtotalEl = document.getElementById('sumSubtotal');
+const sumDiscountEl = document.getElementById('sumDiscount');
+const sumTaxEl = document.getElementById('sumTax');
+const sumTotalEl = document.getElementById('sumTotal');
+const checkoutBtn = document.getElementById('checkoutBtn');
+
+function renderCart() {
+  if (cart.length === 0) {
+    cartItemsEl.innerHTML = '<div class="cart-empty">Keranjang masih kosong.<br>Pilih produk dari katalog.</div>';
+    itemCountEl.textContent = 0;
+    sumSubtotalEl.textContent = 'Rp 0';
+    sumDiscountEl.textContent = '— Rp 0';
+    sumTaxEl.textContent = 'Rp 0';
+    sumTotalEl.textContent = 'Rp 0';
+    checkoutBtn.disabled = true;
+    return;
+  }
+
+  cartItemsEl.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div>
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-specs">${item.specs.slice(0, 60)}${item.specs.length > 60 ? '…' : ''}</div>
+        <div class="cart-item-price">${formatRupiah(item.price)} × ${item.qty}</div>
+        <div class="cart-item-controls">
+          <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+        </div>
+      </div>
+      <div class="cart-item-right">
+        <div class="cart-item-total">${formatRupiah(item.price * item.qty)}</div>
+        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">Hapus</button>
+      </div>
+    </div>
+  `).join('');
+
+  const itemCount = cart.reduce((s, i) => s + i.qty, 0);
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const discountAmt = subtotal * discount;
+  const afterDiscount = subtotal - discountAmt;
+  const tax = afterDiscount * 0.11;
+  const total = afterDiscount + tax;
+
+  itemCountEl.textContent = itemCount;
+  sumSubtotalEl.textContent = formatRupiah(subtotal);
+  sumDiscountEl.textContent = '— ' + formatRupiah(discountAmt);
+  sumTaxEl.textContent = formatRupiah(tax);
+  sumTotalEl.textContent = formatRupiah(total);
+
+  checkoutBtn.disabled = false;
+
+  updateCashChange();
+}
+
+document.getElementById('cartClear').addEventListener('click', clearCart);
+
+// =================== DISCOUNT ===================
+document.getElementById('discountBtn').addEventListener('click', () => {
+  const code = document.getElementById('discountInput').value.trim().toUpperCase();
+  if (!code) {
+    showToast('Masukkan kode diskon');
+    return;
+  }
+  if (DISCOUNT_CODES[code]) {
+    discount = DISCOUNT_CODES[code];
+    discountCode = code;
+    showToast(`Diskon ${discount * 100}% diterapkan`);
+    renderCart();
+  } else {
+    showToast('Kode tidak valid');
+    discount = 0;
+    discountCode = '';
+    renderCart();
+  }
+});
+
+// =================== PAYMENT METHOD ===================
+document.querySelectorAll('.pay-method').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.pay-method').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    paymentMethod = btn.dataset.method;
+    const cashWrap = document.getElementById('cashWrap');
+    if (paymentMethod === 'cash') {
+      cashWrap.classList.add('show');
+    } else {
+      cashWrap.classList.remove('show');
+    }
+    updateCashChange();
+  });
+});
+
+// =================== CASH INPUT ===================
+const cashReceivedEl = document.getElementById('cashReceived');
+const cashChangeEl = document.getElementById('cashChange');
+const cashChangeAmountEl = document.getElementById('cashChangeAmount');
+
+function getTotal() {
+  if (cart.length === 0) return 0;
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const afterDiscount = subtotal * (1 - discount);
+  return afterDiscount * 1.11;
+}
+
+function updateCashChange() {
+  if (paymentMethod !== 'cash') return;
+  const total = getTotal();
+  const received = parseRupiah(cashReceivedEl.value) || 0;
+  const change = received - total;
+  if (received === 0) {
+    cashChangeAmountEl.textContent = 'Rp 0';
+    cashChangeEl.classList.remove('insufficient');
+    return;
+  }
+  if (change < 0) {
+    cashChangeAmountEl.textContent = 'Kurang ' + formatRupiah(Math.abs(change));
+    cashChangeEl.classList.add('insufficient');
+  } else {
+    cashChangeAmountEl.textContent = formatRupiah(change);
+    cashChangeEl.classList.remove('insufficient');
+  }
+}
+
+cashReceivedEl.addEventListener('input', updateCashChange);
+
+document.querySelectorAll('.cash-quick button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const amount = btn.dataset.amount;
+    const total = getTotal();
+    if (amount === 'exact') {
+      cashReceivedEl.value = Math.round(total);
+    } else {
+      const current = parseRupiah(cashReceivedEl.value) || 0;
+      cashReceivedEl.value = current + parseInt(amount);
+    }
+    updateCashChange();
+  });
+});
+
+// =================== CHECKOUT ===================
+checkoutBtn.addEventListener('click', () => {
+  if (cart.length === 0) {
+    showToast('Keranjang kosong');
+    return;
+  }
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  if (!name) {
+    showToast('Nama pembeli wajib diisi');
+    document.getElementById('custName').focus();
+    return;
+  }
+  if (!phone) {
+    showToast('No. telepon wajib diisi');
+    document.getElementById('custPhone').focus();
+    return;
+  }
+
+  const total = getTotal();
+  if (paymentMethod === 'cash') {
+    const received = parseRupiah(cashReceivedEl.value) || 0;
+    if (received < total) {
+      showToast('Uang yang diterima kurang');
+      cashReceivedEl.focus();
+      return;
+    }
+  }
+
+  generateReceipt();
+});
+
+// =================== RECEIPT ===================
+const receiptModal = document.getElementById('receiptModal');
+const receiptEl = document.getElementById('receipt');
+
+function generateReceipt() {
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const discountAmt = subtotal * discount;
+  const afterDiscount = subtotal - discountAmt;
+  const tax = afterDiscount * 0.11;
+  const total = afterDiscount + tax;
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const notes = document.getElementById('custNotes').value.trim();
+  const received = paymentMethod === 'cash' ? (parseRupiah(cashReceivedEl.value) || 0) : total;
+  const change = received - total;
+
+  const txnId = 'TXN' + Date.now().toString().slice(-8);
+  const txnDate = new Date().toLocaleString('id-ID', {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
+
+  const methodLabel = {
+    cash: 'Tunai',
+    card: 'Kartu Debit/Kredit',
+    qris: 'QRIS',
+    transfer: 'Transfer Bank'
+  }[paymentMethod];
+
+  receiptEl.innerHTML = `
+    <div class="receipt-head">
+      <div class="receipt-store">Sentra Komputer Nusantara</div>
+      <div class="receipt-store-tag">Struk Transaksi</div>
+      <div class="receipt-addr">
+        Jl. Mangga Dua No. 47, Jakarta Pusat<br>
+        021-6123456 · sentrakomputer.id
+      </div>
+    </div>
+
+    <dl class="receipt-meta">
+      <dt>No. Transaksi</dt><dd>${txnId}</dd>
+      <dt>Tanggal</dt><dd>${txnDate}</dd>
+      <dt>Kasir</dt><dd>Budi Santoso</dd>
+      <dt>Pembayaran</dt><dd>${methodLabel}</dd>
+    </dl>
+
+    <div class="receipt-customer">
+      <div><span>Pembeli</span><span>${name}</span></div>
+      <div><span>Telepon</span><span>${phone}</span></div>
+      ${notes ? `<div><span>Catatan</span><span style="text-align: right; max-width: 60%;">${notes}</span></div>` : ''}
+    </div>
+
+    <div class="receipt-items">
+      ${cart.map(item => `
+        <div class="receipt-item">
+          <div>
+            <div class="receipt-item-name">${item.name}</div>
+            <div class="receipt-item-qty">${item.qty} × ${formatRupiah(item.price)}</div>
+          </div>
+          <div class="receipt-item-price">${formatRupiah(item.price * item.qty)}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="receipt-totals">
+      <div class="summary-row"><span>Subtotal</span><span>${formatRupiah(subtotal)}</span></div>
+      ${discount > 0 ? `<div class="summary-row discount"><span>Diskon (${discountCode} · ${discount * 100}%)</span><span>— ${formatRupiah(discountAmt)}</span></div>` : ''}
+      <div class="summary-row"><span>PPN 11%</span><span>${formatRupiah(tax)}</span></div>
+      <div class="summary-row total"><span>Total</span><span>${formatRupiah(total)}</span></div>
+    </div>
+
+    <div class="receipt-pay">
+      <div class="summary-row"><span>Diterima (${methodLabel})</span><span>${formatRupiah(received)}</span></div>
+      ${paymentMethod === 'cash' ? `<div class="summary-row"><span>Kembalian</span><span>${formatRupiah(change)}</span></div>` : ''}
+    </div>
+
+    <div class="receipt-foot">
+      <div class="receipt-thanks">Terima kasih atas kepercayaan Anda.</div>
+      <div class="receipt-warranty">Garansi 12 Bulan · Simpan Struk Ini</div>
+      <div class="receipt-actions">
+        <button class="receipt-action" id="newTransaction">Transaksi Baru</button>
+        <button class="receipt-action primary" id="printReceipt">Cetak Struk</button>
+      </div>
+    </div>
+  `;
+
+  receiptModal.classList.add('active');
+
+  document.getElementById('printReceipt').addEventListener('click', () => {
+    window.print();
+  });
+  document.getElementById('newTransaction').addEventListener('click', () => {
+    closeReceipt();
+    clearCart();
+    document.getElementById('custName').value = '';
+    document.getElementById('custPhone').value = '';
+    document.getElementById('custNotes').value = '';
+    cashReceivedEl.value = '';
+  });
+}
+
+function closeReceipt() {
+  receiptModal.classList.remove('active');
+}
+
+document.getElementById('modalClose').addEventListener('click', closeReceipt);
+receiptModal.addEventListener('click', (e) => {
+  if (e.target === receiptModal) closeReceipt();
+});
+
+// =================== TOAST ===================
+const toast = document.getElementById('toast');
+let toastTimeout;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 2400);
+}
+
+// =================== INITIAL RENDER ===================
+renderProducts();
+renderCart();
+
+// Expose for inline handlers
+window.changeQty = changeQty;
+window.removeFromCart = removeFromCart;
+</script>
+
+</body>
+</html>
