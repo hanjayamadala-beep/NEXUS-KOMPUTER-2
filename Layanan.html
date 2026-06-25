@@ -48,16 +48,25 @@
       align-items: center;
       justify-content: space-between;
     }
-    .logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-    .logo img {
-      height: 54px;
-      width: auto;
-      object-fit: contain;
-    }
+    /* --- PERUBAHAN LOGO DI SINI --- */
+  .logo {
+    display: flex;
+    align-items: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--neon);
+    letter-spacing: 0px;
+    text-shadow: none;
+    text-decoration: none;
+      margin-top: -10px;
+  }
+  .logo img {
+    height: 80px; /* Sesuaikan tinggi logo agar pas di navbar */
+    width: auto;
+    display: block;
+    object-fit: contain;
+  }
     .nav-links {
       display: flex;
       gap: 2rem;
@@ -193,7 +202,7 @@
   <!-- NAVBAR -->
   <nav>
     <a href="Home.html" class="logo">
-      <img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100111250/78c2684e-37b8-46.png" alt="Nexus Logo" crossorigin="anonymous">
+      <img src="Logo%20saya.png" alt="Nexus Logo">
     </a>
     <ul class="nav-links">
       <li><a href="Home.html">Home</a></li>
