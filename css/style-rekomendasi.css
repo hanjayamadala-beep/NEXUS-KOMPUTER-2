@@ -97,9 +97,9 @@ nav {
   }
 }
 
-/* ================= KONTEN DIAGNOSA ================= */
+/* ================= KONTEN ================= */
 .container-page {
-  max-width: 1100px;
+  max-width: 900px;
   margin: auto;
   padding: 100px 2rem 60px;
 }
@@ -126,64 +126,93 @@ nav {
   color: var(--muted);
   font-size: 0.95rem;
   margin-bottom: 40px;
-  max-width: 640px;
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.step-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 1rem;
-}
-
-/* SYMPTOM CARD */
-.symptom-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+/* QUIZ */
+.quiz-card {
   background: var(--card);
   border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+}
+
+.progress-track {
+  height: 6px;
+  background: var(--bg3);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 2.2rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--neon);
+  transition: width 0.3s;
+}
+
+.quiz-step {
+  display: none;
+}
+
+.quiz-step.active {
+  display: block;
+}
+
+.quiz-question {
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.6rem;
+}
+
+.option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 14px 16px;
+  padding: 20px 10px;
   cursor: pointer;
   height: 100%;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  text-align: center;
+  transition: all 0.2s;
   user-select: none;
 }
 
-.symptom-card .icon {
-  font-size: 1.3rem;
-  flex-shrink: 0;
+.option-card .icon {
+  font-size: 1.7rem;
 }
 
-.symptom-card .label {
+.option-card .label {
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text);
 }
 
-.symptom-card input {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--neon);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.symptom-card:hover {
+.option-card:hover {
   border-color: #bfdbfe;
   background: #eff6ff;
 }
 
-.symptom-card.checked {
+.option-card.selected {
   border-color: var(--neon);
   background: #eff6ff;
-  box-shadow: 0 0 0 1px var(--neon) inset;
+  box-shadow: 0 0 0 2px var(--neon) inset;
 }
 
-/* BUTTONS */
+.quiz-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
 .btn-primary {
   background: var(--neon);
   border-color: var(--neon);
@@ -196,37 +225,37 @@ nav {
   border-color: #1e40af;
 }
 
+.btn-primary:disabled {
+  background: #93c5fd;
+  border-color: #93c5fd;
+}
+
 .btn-outline-secondary {
   font-weight: 600;
 }
 
-.action-bar {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin: 2.5rem 0;
-  flex-wrap: wrap;
+/* RESULT - product card */
+.rank-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--neon);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
 }
 
-.btn-analisa {
-  padding: 12px 32px;
-  font-size: 0.95rem;
-  border-radius: 8px;
-}
-
-/* RESULT CARD */
-.result-card {
+.product-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 1.25rem;
   position: relative;
+  cursor: pointer;
   overflow: hidden;
   height: 100%;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
-.result-card::before {
+.product-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -238,18 +267,79 @@ nav {
   transition: opacity 0.2s;
 }
 
-.result-card:hover {
+.product-card:hover {
   border-color: #bfdbfe;
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
-.result-card:hover::before {
+.product-card:hover::before {
   opacity: 1;
 }
 
-.result-card h6 {
-  margin: 6px 0 10px;
+.card-image {
+  background: var(--bg3);
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-image img {
+  max-height: 150px;
+  max-width: 90%;
+  object-fit: contain;
+}
+
+.card-body {
+  padding: 1.1rem;
+}
+
+.card-brand {
+  font-size: 0.7rem;
+  color: var(--neon);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.card-name {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.card-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.spec-chip {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--neon);
 }
 
 /* MODAL */
@@ -260,38 +350,31 @@ nav {
 
 .modal-header {
   border-bottom: 1px solid var(--border);
-  align-items: flex-start;
 }
 
-.modal-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-top: 4px;
+.specs-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.solusi-list {
-  padding-left: 1.2rem;
-}
-
-.solusi-list li {
-  margin-bottom: 8px;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-table.part-table th {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 600;
+.specs-table tr {
   border-bottom: 1px solid var(--border);
 }
 
-table.part-table td {
-  font-size: 0.9rem;
+.specs-table td {
+  padding: 9px 0;
+  font-size: 0.88rem;
+}
+
+.specs-table td:first-child {
+  color: var(--muted);
+  font-weight: 500;
+  width: 45%;
+}
+
+.specs-table td:last-child {
   color: var(--text);
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
+  font-weight: 500;
 }
 
 /* ================= FOOTER (selaras Home) ================= */

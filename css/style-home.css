@@ -1,3 +1,6 @@
+/* ===========================
+   GLOBAL & VARIABEL
+   =========================== */
 :root {
   --neon: #1d4ed8;
   --neon2: #2563eb;
@@ -24,7 +27,9 @@ body {
   overflow-x: hidden;
 }
 
-/* NAVBAR */
+/* ===========================
+   NAVBAR
+   =========================== */
 nav {
   position: fixed;
   top: 0;
@@ -89,7 +94,9 @@ nav {
   background: #1e40af;
 }
 
-/* HERO CAROUSEL */
+/* ===========================
+   HERO CAROUSEL
+   =========================== */
 .hero-carousel {
   position: relative;
   z-index: 1;
@@ -361,7 +368,9 @@ nav {
   letter-spacing: 1px;
 }
 
-/* BENEFIT SECTION */
+/* ===========================
+   BENEFIT SECTION
+   =========================== */
 .benefit-section {
   max-width: 1200px;
   margin: 0 auto;
@@ -406,7 +415,9 @@ nav {
   margin-top: 1px;
 }
 
-/* PROMO MINGGU INI */
+/* ===========================
+   PROMO MINGGU INI
+   =========================== */
 .promo-minggu-wrap {
   max-width: 1200px;
   margin: 0 auto;
@@ -630,7 +641,9 @@ nav {
   background: #b91c1c;
 }
 
-/* SECTION */
+/* ===========================
+   SECTION & PRODUK
+   =========================== */
 section {
   position: relative;
   z-index: 1;
@@ -860,7 +873,9 @@ section {
   background: #1e40af;
 }
 
-/* MODAL */
+/* ===========================
+   MODAL PRODUK
+   =========================== */
 .nx-modal-overlay {
   display: none;
   position: fixed;
@@ -1040,7 +1055,120 @@ section {
   background: #1e40af;
 }
 
-/* FOOTER */
+/* ===========================
+   POPUP DISKON (Bootstrap Modal)
+   =========================== */
+.discount-popup-content {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.btn-close-popup {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.btn-close-popup:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+
+.popup-visual {
+  background: linear-gradient(135deg, #f0f4ff 0%, #e6ecfe 100%);
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.popup-visual img {
+  max-height: 220px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+}
+
+.popup-details {
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.popup-badge {
+  display: inline-block;
+  background: #ff3b5c;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+  width: fit-content;
+}
+
+.popup-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.6rem;
+}
+
+.popup-desc {
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+
+.popup-note {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-bottom: 1.8rem;
+}
+
+.btn-shop {
+  background: #1d4ed8;
+  border: none;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+  width: fit-content;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+}
+
+.btn-shop:hover {
+  background: #1e40af;
+  color: #fff;
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
 footer {
   background: #0b1120;
   color: #94a3b8;
@@ -1158,7 +1286,9 @@ footer {
   color: #3b82f6;
 }
 
-/* RESPONSIVE */
+/* ===========================
+   RESPONSIVE
+   =========================== */
 @media (max-width: 768px) {
   .hero-carousel {
     height: auto;
@@ -1209,6 +1339,19 @@ footer {
   .footer-container {
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
+  }
+  
+  .popup-visual {
+    padding: 1.5rem;
+    min-height: 200px;
+  }
+  
+  .popup-visual img {
+    max-height: 180px;
+  }
+  
+  .popup-details {
+    padding: 1.8rem 1.5rem;
   }
 }
 

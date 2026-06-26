@@ -14,14 +14,14 @@
 <!-- NAVBAR -->
 <nav>
   <a href="#" class="logo">
-    <img src="Logo saya.png" alt="Nexus Logo">
+    <img src="/img/Logo saya.png" alt="Nexus Logo">
   </a>
   <ul class="nav-links">
     <li><a href="Home.html">Home</a></li>
     <li><a href="Layanan.html">Layanan</a></li>
-    <li><a href="diagnosa-kerusakan.html">Diagnosa</a></li>
-    <li><a href="rekomendasi-laptop.html">Rekomendasi</a></li>
-    <li><a href="kontak.html">Kontak</a></li>
+    <li><a href="Diagnosa.html">Diagnosa</a></li>
+    <li><a href="Rekomendasi-laptop.html">Rekomendasi</a></li>
+    <li><a href="Kontak.html">Kontak</a></li>
   </ul>
   <a class="nav-badge" href="garansi.html">Garansi Resmi</a>
 </nav>
@@ -190,6 +190,27 @@
     <div class="nx-modal-top"></div>
     <button class="nx-modal-close" onclick="closeModalDirect()">✕</button>
     <div class="nx-modal-inner" id="modalContent"></div>
+  </div>
+</div>
+
+<!-- POPUP DISKON -->
+<div class="modal fade" id="discountPopup" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content discount-popup-content">
+      <button type="button" class="btn-close-popup" data-bs-dismiss="modal" aria-label="Close">✕</button>
+      <div class="row g-0 align-items-center">
+        <div class="col-md-5 popup-visual">
+          <img src="https://i.ibb.co.com/6RZS5Jqb/10-DEE269-0-AA9-4-DB8-A555-4696-BC4-F5767-removebg-preview.png" alt="Promo Laptop" style="max-width:100%; height:auto; filter:drop-shadow(0 8px 16px rgba(0,0,0,0.2));">
+        </div>
+        <div class="col-md-7 popup-details">
+          <span class="popup-badge">🎉 PEMBELIAN PERTAMA</span>
+          <h3 class="popup-title">Diskon 10% untuk Kamu!</h3>
+          <p class="popup-desc">Selamat datang di Nexus! Sebagai pembeli baru, kamu berhak mendapatkan potongan langsung 10% untuk semua laptop.</p>
+          <p class="popup-note">Min. pembelian Rp 10.000.000 | Diskon maks. Rp 5.000.000</p>
+          <button class="btn btn-primary btn-shop" onclick="window.location.href='Home.html#produk'">🛒 Klaim Diskon Sekarang</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

@@ -517,3 +517,40 @@ document.addEventListener('DOMContentLoaded', function() {
   updatePromoVisible();
   window.addEventListener('resize', updatePromoVisible);
 });
+
+// ========== POPUP DISKON ==========
+const discountPopup = new bootstrap.Modal(document.getElementById('discountPopup'));
+let popupShown = false;
+
+// Tampilkan setelah 3 detik
+setTimeout(() => {
+  if (!popupShown) {
+    discountPopup.show();
+    popupShown = true;
+  }
+}, 3000);
+
+// Exit intent (ketika mouse meninggalkan jendela ke atas)
+document.addEventListener('mouseleave', (e) => {
+  if (e.clientY <= 0 && !popupShown) {
+    discountPopup.show();
+    popupShown = true;
+  }
+});
+
+// Fungsi salin kupon
+function copyCoupon() {
+  const code = document.getElementById('couponCode').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = 'Tersalin!';
+    btn.style.background = '#16a34a';
+    setTimeout(() => {
+      btn.textContent = 'Salin';
+      btn.style.background = '#1d4ed8';
+    }, 2000);
+  }).catch(() => alert('Gagal menyalin, coba manual: ' + code));
+}
+
+// Tutup popup jika klik tombol close atau belanja sekarang (tidak perlu script khusus)
+document.querySelector('.btn-close-popup').addEventListener('click', () => discountPopup.hide());

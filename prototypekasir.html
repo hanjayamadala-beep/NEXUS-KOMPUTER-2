@@ -3,67 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekomendasi Laptop - Nexus</title>
+    <title>Kasir - Nexus</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/style-rekomendasi.css">
+    <link rel="stylesheet" href="/css/prototypekasir.css">
 </head>
 <body>
 
-    <!-- NAVBAR (selaras dengan Home) -->
     <nav>
         <a href="Home.html" class="logo">
-            <img src="Logo%20saya.png" alt="Nexus Logo">
+            <img src="/img/Logo saya.png" alt="Nexus Logo">
         </a>
         <ul class="nav-links">
             <li><a href="Home.html">Home</a></li>
             <li><a href="Layanan.html">Layanan</a></li>
             <li><a href="diagnosa-kerusakan.html">Diagnosa</a></li>
-            <li><a href="rekomendasi-laptop.html" class="active">Rekomendasi</a></li>
+            <li><a href="rekomendasi-laptop.html">Rekomendasi</a></li>
             <li><a href="kontak.html">Kontak</a></li>
         </ul>
-        <a class="nav-badge" href="garansi.html">Garansi Resmi</a>
+        <a class="nav-badge" href="kasir.html">Kasir</a>
     </nav>
 
-    <!-- CONTENT -->
-    <div class="container-page">
-        <div class="section-label">// Konsultasi Gratis</div>
-        <h2>Rekomendasi Laptop Untukmu</h2>
-        <p class="section-sub">
-            Jawab 4 pertanyaan singkat, sistem kami akan mencocokkan kebutuhanmu
-            dengan katalog laptop Nexus dan memberi rekomendasi yang paling sesuai.
-        </p>
-
-        <div class="quiz-card">
-            <div class="progress-track">
-                <div class="progress-fill" id="progressFill" style="width:25%"></div>
+    <div class="pos-wrapper">
+        <div class="pos-container">
+            <!-- Kolom Kiri: Pencarian & Produk -->
+            <div class="pos-left">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Cari nama / kode laptop...">
+                    <button id="searchBtn">🔍</button>
+                </div>
+                <div class="product-grid" id="productGrid"></div>
             </div>
-            <div id="quizSteps"></div>
-            <div class="quiz-nav">
-                <button class="btn btn-outline-secondary" id="btnBack">← Kembali</button>
-                <button class="btn btn-primary" id="btnNext" disabled>Lanjut →</button>
+
+            <!-- Kolom Kanan: Keranjang -->
+            <div class="pos-right">
+                <div class="cart-header">
+                    <h2>Keranjang</h2>
+                    <span id="itemCount">0 item</span>
+                </div>
+                <div class="cart-items" id="cartItems">
+                    <p class="text-muted text-center mt-4">Belum ada item</p>
+                </div>
+                <div class="cart-summary" id="cartSummary" style="display:none;">
+                    <div class="coupon-section mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="couponInput" placeholder="Kode kupon">
+                            <button class="btn btn-outline-primary" id="applyCouponBtn">Pakai</button>
+                        </div>
+                        <div id="couponMsg" class="small mt-1"></div>
+                    </div>
+                    <div class="d-flex justify-content-between"><span>Subtotal</span><span id="subtotal">Rp 0</span></div>
+                    <div class="d-flex justify-content-between"><span>Diskon</span><span id="discount">Rp 0</span></div>
+                    <div class="d-flex justify-content-between"><span>PPN (11%)</span><span id="tax">Rp 0</span></div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold fs-5"><span>Total</span><span id="grandTotal">Rp 0</span></div>
+                    <button class="btn btn-primary w-100 mt-3" id="checkoutBtn">💳 Proses Pembayaran</button>
+                </div>
             </div>
         </div>
-
-        <div id="hasilRekomendasi" class="mt-5"></div>
     </div>
 
-    <!-- MODAL DETAIL LAPTOP -->
-    <div class="modal fade" id="laptopModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content" id="laptopModalContent"></div>
+    <!-- MODAL STRUK -->
+    <div class="modal fade" id="receiptModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="receiptContent"></div>
         </div>
     </div>
 
-    <!-- FOOTER (selaras dengan Home) -->
     <footer>
         <div class="footer-container">
             <div class="footer-col">
@@ -121,13 +130,9 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-            crossorigin="anonymous">
-    </script>
-
-    <!-- Custom JS -->
-    <script src="/Js/script-rekomendasi.js"></script>
+            crossorigin="anonymous"></script>
+    <script src="/Js/prototypekasir.js"></script>
 </body>
 </html>
