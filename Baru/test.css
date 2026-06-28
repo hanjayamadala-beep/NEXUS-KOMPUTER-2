@@ -1,3 +1,8 @@
+/* ================================================================
+   test.css - LENGKAP untuk halaman kontak
+   ================================================================ */
+
+/* ===== DEKLARASI VARIABEL (WAJIB) ===== */
 :root {
   --neon: #1d4ed8;
   --neon2: #2563eb;
@@ -10,6 +15,7 @@
   --muted: #64748b;
 }
 
+/* ===== RESET & BASE ===== */
 * {
   margin: 0;
   padding: 0;
@@ -29,7 +35,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ================= NAVBAR (SAMA PERSIS DENGAN GARANSI) ================= */
+/* ================= NAVBAR ================= */
 nav {
   position: fixed;
   top: 0;
@@ -100,10 +106,10 @@ nav {
   }
 }
 
-/* ================= KONTEN KONTAK ================= */
+/* ================= CONTENT ================= */
 .wrapper-kontak {
   min-height: 100vh;
-  padding-top: 64px; /* Sama dengan tinggi navbar */
+  padding-top: 64px;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 40px;
@@ -185,6 +191,120 @@ li {
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 12px 16px;
+}
+
+/* ===== SECTION BLOCK ===== */
+.section-block {
+  margin-bottom: 30px;
+}
+
+.section-block:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== INFO KONTAK ===== */
+.info-kontak {
+    margin-bottom: 24px;
+}
+
+.info-kontak h1 {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--bg3);
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+}
+
+.info-item:hover {
+    border-color: var(--neon);
+}
+
+.info-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    margin-top: 2px;
+}
+
+.info-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ===== DIVIDER ===== */
+.divider {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 24px 0;
+}
+
+/* ===== FORM KONTAK ===== */
+.form-kontak h1 {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+}
+
+#formKontak .form-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text);
+}
+
+#formKontak .form-control {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#formKontak .form-control:focus {
+    border-color: var(--neon);
+    box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+    outline: none;
+}
+
+#formKontak .form-control::placeholder {
+    color: #adb5bd;
+    font-size: 0.85rem;
+}
+
+.btn-kirim {
+    background: var(--neon);
+    color: #fff;
+    border: none;
+    padding: 10px 32px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.btn-kirim:hover {
+    background: #1e40af;
 }
 
 /* ================= FOOTER ================= */
@@ -305,16 +425,33 @@ footer {
   color: #3b82f6;
 }
 
-/* Responsive footer */
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-  .footer-container {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
 }
 
-@media (max-width: 640px) {
-  .footer-container {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 576px) {
+    .info-item {
+        padding: 12px 14px;
+    }
+    
+    .info-value {
+        font-size: 0.8rem;
+    }
+    
+    .btn-kirim {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
 }

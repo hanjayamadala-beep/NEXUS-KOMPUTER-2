@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cek Garansi Produk - Official</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome 6 (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        /* ===== GAYA UMUM ===== */
+        body {
+            background: #f0f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ===== HERO / HEADER ===== */
+        .hero-section {
+            background: linear-gradient(135deg, #0b1a2e, #1a3a5c);
+            color: white;
+            padding: 60px 0 80px 0;
+            border-radius: 0 0 40px 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        .hero-section h1 {
+            font-weight: 700;
+            font-size: 2.8rem;
+        }
+        .hero-section h1 i {
+            color: #ffc107;
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.85;
+        }
+
+        /* ===== KARTU FORM ===== */
+        .card-garansi {
+            background: white;
+            border-radius: 24px;
+            padding: 40px 35px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+            border: none;
+            transition: transform 0.2s ease;
+        }
+        .card-garansi:hover {
+            transform: translateY(-4px);
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 14px;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            font-size: 1rem;
+            transition: 0.25s;
+        }
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #1a3a5c;
+            box-shadow: 0 0 0 4px rgba(26, 58, 92, 0.15);
+        }
+
+        .btn-cek {
+            background: linear-gradient(135deg, #1a3a5c, #0b1a2e);
+            color: white;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            border: none;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .btn-cek:hover {
+            background: linear-gradient(135deg, #264d78, #122a44);
+            transform: scale(1.02);
+            box-shadow: 0 12px 28px rgba(26, 58, 92, 0.35);
+            color: white;
+        }
+
+        /* ===== HASIL PENCARIAN (Muncul setelah cek) ===== */
+        .result-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            border-left: 8px solid #28a745;
+            display: none;
+            /* akan muncul via JS */;
+            margin-top: 35px;
+            animation: fadeUp 0.5s ease;
+        }
+        .result-card.inactive {
+            border-left-color: #dc3545;
+        }
+        .result-card .status-badge {
+            font-size: 1.1rem;
+            padding: 8px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        /* ===== ANIMASI ===== */
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 576px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .card-garansi {
+                padding: 28px 18px;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer-custom {
+            background: #0b1a2e;
+            color: #aaa;
+            padding: 30px 0;
+            margin-top: 80px;
+            border-radius: 40px 40px 0 0;
+        }
+        .footer-custom a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        .footer-custom a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================= -->
+    <!-- HERO SECTION -->
+    <!-- ========================================= -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1>
+                <i class="fas fa-shield-alt me-3"></i> Cek Garansi Resmi
+            </h1>
+            <p class="mt-3">
+                Masukkan nomor seri atau IMEI produk Anda untuk memeriksa status garansi
+            </p>
+            <div class="d-flex justify-content-center gap-4 mt-4 flex-wrap">
+                <span><i class="fas fa-check-circle text-warning me-1"></i> 24 Bulan Garansi</span>
+                <span><i class="fas fa-check-circle text-warning me-1"></i> Service Center Resmi</span>
+                <span><i class="fas fa-check-circle text-warning me-1"></i> Klaim Mudah</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- FORM + HASIL (dalam 1 container) -->
+    <!-- ========================================= -->
+    <div class="container">
+
+        <!-- Kartu Form -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <div class="card-garansi">
+
+                    <h5 class="mb-4 fw-bold">
+                        <i class="fas fa-search text-primary me-2"></i> Cek Garansi Produk Anda
+                    </h5>
+
+                    <form id="formGaransi">
+                        <!-- Pilih tipe produk -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold"><i class="fas fa-tag me-1"></i> Tipe Produk</label>
+                            <select class="form-select" id="tipeProduk" required>
+                                <option value="">Pilih tipe produk...</option>
+                                <option value="Smartphone">Smartphone</option>
+                                <option value="Laptop">Laptop / Notebook</option>
+                                <option value="Tablet">Tablet</option>
+                                <option value="Aksesoris">Aksesoris (Headset, Charger, dll)</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+
+                        <!-- Nomor Seri / IMEI -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold"><i class="fas fa-barcode me-1"></i> Nomor Seri / IMEI</label>
+                            <input type="text" class="form-control" id="nomorSeri" placeholder="Contoh: SN-2026-XXXX-001" required />
+                            <div class="form-text mt-1">
+                                <i class="fas fa-info-circle text-primary"></i> Cari nomor seri di kemasan atau di pengaturan perangkat.
+                            </div>
+                        </div>
+
+                        <!-- Tombol Cek -->
+                        <button type="submit" class="btn-cek">
+                            <i class="fas fa-search me-2"></i> Cek Garansi Sekarang
+                        </button>
+                    </form>
+
+                    <!-- ========================================= -->
+                    <!-- KARTU HASIL (muncul setelah submit) -->
+                    <!-- ========================================= -->
+                    <div id="hasilGaransi" class="result-card">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap">
+                            <div>
+                                <h5 class="fw-bold mb-1" id="statusTitle">✔️ Garansi Aktif</h5>
+                                <p class="mb-0 text-muted" id="detailProduk">Smartphone · SN-2026-XXXX-001</p>
+                            </div>
+                            <span class="status-badge bg-success text-white" id="statusBadge">Aktif</span>
+                        </div>
+                        <hr />
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <small class="text-muted">Sisa Masa Garansi</small>
+                                <p class="fw-bold fs-5 mb-0" id="sisaGaransi">18 bulan (hingga 28 Des 2027)</p>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted">Status Klaim</small>
+                                <p class="fw-bold fs-5 mb-0 text-success" id="statusKlaim">
+                                    <i class="fas fa-check-circle me-1"></i> Dapat diklaim
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="resetForm()">
+                                <i class="fas fa-undo me-1"></i> Cek Lagi
+                            </button>
+                            <a href="#" class="btn btn-primary btn-sm ms-2">
+                                <i class="fas fa-print me-1"></i> Cetak Hasil
+                            </a>
+                        </div>
+                    </div>
+                    <!-- AKHIR result-card -->
+
+                </div>
+                <!-- AKHIR card-garansi -->
+            </div>
+        </div>
+
+        <!-- ========================================= -->
+        <!-- INFO TAMBAHAN (Layanan) -->
+        <!-- ========================================= -->
+        <div class="row mt-5 g-4 text-center">
+            <div class="col-md-4">
+                <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+                    <i class="fas fa-headset fs-1 text-primary mb-3"></i>
+                    <h6 class="fw-bold">Layanan 24/7</h6>
+                    <p class="small text-muted">Hubungi call center resmi kapan saja</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+                    <i class="fas fa-map-pin fs-1 text-primary mb-3"></i>
+                    <h6 class="fw-bold">100+ Service Center</h6>
+                    <p class="small text-muted">Tersebar di seluruh Indonesia</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+                    <i class="fas fa-clock fs-1 text-primary mb-3"></i>
+                    <h6 class="fw-bold">Garansi 24 Bulan</h6>
+                    <p class="small text-muted">Perlindungan penuh untuk produk Anda</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- AKHIR container -->
+
+    <!-- ========================================= -->
+    <!-- FOOTER -->
+    <!-- ========================================= -->
+    <footer class="footer-custom text-center">
+        <div class="container">
+            <p class="mb-0">
+                &copy; 2026 <strong>GaransiID</strong> — All Rights Reserved.
+                <span class="d-block d-sm-inline mt-1 mt-sm-0">
+                    <i class="fas fa-envelope me-1"></i> support@garansiid.com
+                    &nbsp;|&nbsp; <i class="fas fa-phone me-1"></i> 021-1234-5678
+                </span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- ========================================= -->
+    <!-- Bootstrap JS -->
+    <!-- ========================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <!-- ========================================= -->
+    <!-- JAVASCRIPT CUSTOM (Logika Cek Garansi) -->
+    <!-- ========================================= -->
+    <script>
+        // Ambil elemen
+        const form = document.getElementById('formGaransi');
+        const hasilDiv = document.getElementById('hasilGaransi');
+        const statusTitle = document.getElementById('statusTitle');
+        const detailProduk = document.getElementById('detailProduk');
+        const statusBadge = document.getElementById('statusBadge');
+        const sisaGaransi = document.getElementById('sisaGaransi');
+        const statusKlaim = document.getElementById('statusKlaim');
+
+        // Event submit form
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // mencegah reload halaman
+
+            // Ambil nilai input
+            const tipe = document.getElementById('tipeProduk').value;
+            const nomor = document.getElementById('nomorSeri').value.trim();
+
+            // Validasi sederhana
+            if (!tipe || !nomor) {
+                alert('⚠️ Harap lengkapi semua field!');
+                return;
+            }
+
+            // --- SIMULASI DATA GARANSI (dinamis) ---
+            // Di dunia nyata, ini akan request ke API backend.
+            // Kita buat hasil bervariasi agar terlihat realistis.
+
+            const randomStatus = Math.random(); // 0 - 1
+
+            let aktif, sisaBulan, tanggalExp, pesanKlaim, warnaBadge, iconStatus;
+
+            if (randomStatus > 0.25) {
+                // GARANSI AKTIF (75% kemungkinan)
+                aktif = true;
+                sisaBulan = Math.floor(Math.random() * 18) + 3; // 3 - 20 bulan
+                const now = new Date();
+                const exp = new Date(now);
+                exp.setMonth(exp.getMonth() + sisaBulan);
+                tanggalExp = exp.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+                pesanKlaim = '<i class="fas fa-check-circle me-1"></i> Dapat diklaim';
+                warnaBadge = 'bg-success';
+                iconStatus = '✔️';
+            } else {
+                // GARANSI KADALUARSA / TIDAK DITEMUKAN (25%)
+                aktif = false;
+                sisaBulan = 0;
+                tanggalExp = '—';
+                pesanKlaim = '<i class="fas fa-times-circle me-1"></i> Tidak dapat diklaim';
+                warnaBadge = 'bg-danger';
+                iconStatus = '❌';
+            }
+
+            // Update tampilan hasil
+            if (aktif) {
+                statusTitle.textContent = `${iconStatus} Garansi Aktif`;
+                statusTitle.className = 'fw-bold mb-1 text-success';
+                statusBadge.className = `status-badge ${warnaBadge} text-white`;
+                statusBadge.textContent = 'Aktif';
+                hasilDiv.className = 'result-card'; // hilangkan border merah
+                sisaGaransi.textContent = `${sisaBulan} bulan (hingga ${tanggalExp})`;
+                statusKlaim.className = 'fw-bold fs-5 mb-0 text-success';
+                statusKlaim.innerHTML = pesanKlaim;
+                detailProduk.textContent = `${tipe} · ${nomor}`;
+            } else {
+                statusTitle.textContent = `${iconStatus} Garansi Tidak Ditemukan / Kadaluarsa`;
+                statusTitle.className = 'fw-bold mb-1 text-danger';
+                statusBadge.className = `status-badge ${warnaBadge} text-white`;
+                statusBadge.textContent = 'Kadaluarsa';
+                hasilDiv.className = 'result-card inactive'; // border merah
+                sisaGaransi.textContent = 'Garansi sudah berakhir';
+                statusKlaim.className = 'fw-bold fs-5 mb-0 text-danger';
+                statusKlaim.innerHTML = pesanKlaim;
+                detailProduk.textContent = `${tipe} · ${nomor}`;
+            }
+
+            // Tampilkan kartu hasil dengan animasi
+            hasilDiv.style.display = 'block';
+            hasilDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // (Opsional) Reset form agar tidak bisa submit ganda
+            // Tapi kita biarkan agar user bisa lihat data.
+        });
+
+        // Fungsi reset (tombol "Cek Lagi")
+        function resetForm() {
+            // Sembunyikan hasil
+            hasilDiv.style.display = 'none';
+            // Kosongkan form (opsional)
+            document.getElementById('tipeProduk').value = '';
+            document.getElementById('nomorSeri').value = '';
+            // Scroll ke atas
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
